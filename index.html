@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Centro Cristiano de Restauración Los Ríos</title>
+    <!-- Fuente Montserrat -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+    <header>
+        <img src="CCRLR.png" alt="Logo de la iglesia" class="logo" />
+        <h1 class="nombre-iglesia">Centro Cristiano de Restauración Los Ríos</h1>
+    </header>
+
+    <nav>
+        <a href="#inicio">Inicio</a>
+        <a href="#recursos">Recursos</a>
+        <a href="#chat">Chat</a>
+    </nav>
+
+    <main>
+        <section id="inicio">
+            <h2>Bienvenidos</h2>
+            <p>Bienvenidos al sitio oficial de nuestra iglesia. Aquí encontrarás recursos y un espacio para la comunidad.</p>
+        </section>
+
+        <section id="recursos">
+            <h2>Planes de Evangelización</h2>
+            <p>Consulta nuestro plan de evangelización directamente aquí:</p>
+            <iframe 
+                src="URL_de_tu_plan_en_GitHub" 
+                width="100%" 
+                height="600" 
+                frameborder="0" 
+                title="Plan de Evangelización">
+            </iframe>
+        </section>
+
+        <section id="chat">
+            <h2>Chat de Oración</h2>
+            <div id="chat-box"></div>
+            <div id="chat-input">
+                <input type="text" id="message" placeholder="Escribe tu mensaje aquí..." />
+                <button id="sendBtn">Enviar</button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2025 Centro Cristiano de Restauración Los Ríos. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

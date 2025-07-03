@@ -1,0 +1,146 @@
+:root {
+    --negro: #000000;
+    --azul-prusia: #003153;
+    --dorado-oscuro: #b8860b;
+    --blanco: #ffffff;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+    background-color: var(--negro);
+    color: var(--blanco);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.logo {
+    max-width: 800px;    /* Logo grande */
+    width: 30%;
+    display: block;
+    margin: 0 auto 0.1em auto;
+}
+
+.nombre-iglesia {
+    font-size: 1.1em;   /* Nombre pequeño */
+    font-weight: 400;
+    margin: 0;
+    letter-spacing: 1px;
+}
+
+header {
+    background-color: var(--azul-prusia);
+    text-align: center;
+    padding: 1em 0;
+}
+
+nav {
+    background-color: var(--dorado-oscuro);
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+nav a {
+    color: var(--blanco);
+    text-decoration: none;
+    padding: 1em 1.5em;
+    font-weight: 700;
+    transition: background-color 0.3s ease;
+}
+
+nav a:hover {
+    background-color: var(--negro);
+}
+
+main {
+    flex-grow: 1;
+    padding: 2em;
+    font-family: 'Times New Roman', serif;
+}
+
+section {
+    margin-bottom: 3em;
+}
+
+iframe {
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 0 10px var(--dorado-oscuro);
+}
+
+#chat-box {
+    background-color: var(--azul-prusia);
+    height: 300px;
+    overflow-y: auto;
+    padding: 1em;
+    border-radius: 8px;
+    margin-bottom: 1em;
+}
+
+.message {
+    margin-bottom: 0.5em;
+    padding: 0.5em;
+    background-color: var(--dorado-oscuro);
+    border-radius: 5px;
+    color: var(--negro);
+    word-wrap: break-word;
+}
+
+#chat-input {
+    display: flex;
+    gap: 0.5em;
+}
+
+#chat-input input {
+    flex-grow: 1;
+    padding: 0.5em;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    font-family: 'Montserrat', sans-serif;
+}
+
+#chat-input button {
+    background-color: var(--dorado-oscuro);
+    color: var(--blanco);
+    border: none;
+    padding: 0.5em 1em;
+    font-weight: 700;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#chat-input button:hover {
+    background-color: #a57507;
+}
+
+footer {
+    background-color: var(--azul-prusia);
+    text-align: center;
+    padding: 1em 0;
+    font-size: 0.9em;
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+    nav {
+        flex-direction: column;
+    }
+    nav a {
+        padding: 0.75em;
+        text-align: center;
+    }
+    #chat-input {
+        flex-direction: column;
+    }
+    #chat-input input {
+        margin-bottom: 0.5em;
+    }
+}
