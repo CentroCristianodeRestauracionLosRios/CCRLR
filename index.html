@@ -24,17 +24,17 @@
             <p>Bienvenidos al sitio oficial de nuestra iglesia. Aquí encontrarás recursos y un espacio para la comunidad.</p>
 
             <div class="image-gallery">
-                <div class="gallery-item span-2-col"><img src="afuera.jpg" alt="Actividad al aire libre"></div>
-                <div class="gallery-item"><img src="aniversario.jpg" alt="Aniversario de la iglesia"></div>
-                <div class="gallery-item"><img src="BENDICION.png" alt="Bendición"></div>
-                <div class="gallery-item"><img src="danza.jpg" alt="Danza en la iglesia"></div>
-                <div class="gallery-item span-2-col"><img src="ECO.png" alt="Evento ECO"></div>
-                <div class="gallery-item"><img src="hninos.jpg" alt="Niños de la iglesia"></div>
-                <div class="gallery-item"><img src="ninos.png" alt="Otro grupo de niños"></div>
-                <div class="gallery-item span-2-col"><img src="pastor.png" alt="Pastor"></div>
-                <div class="gallery-item"><img src="pastora.jpg" alt="Pastora"></div>
-                <div class="gallery-item span-2-col"><img src="serviciondominical.png" alt="Servicio Dominical"></div>
-                <div class="gallery-item"><img src="UNA.png" alt="Evento UNA"></div>
+                <div class="gallery-item span-2-col" data-full-src="afuera.jpg"><img src="afuera.jpg" alt="Actividad al aire libre"></div>
+                <div class="gallery-item" data-full-src="aniversario.jpg"><img src="aniversario.jpg" alt="Aniversario de la iglesia"></div>
+                <div class="gallery-item" data-full-src="BENDICION.png"><img src="BENDICION.png" alt="Bendición"></div>
+                <div class="gallery-item" data-full-src="danza.jpg"><img src="danza.jpg" alt="Danza en la iglesia"></div>
+                <div class="gallery-item span-2-col" data-full-src="ECO.png"><img src="ECO.png" alt="Evento ECO"></div>
+                <div class="gallery-item" data-full-src="hninos.jpg"><img src="hninos.jpg" alt="Niños de la iglesia"></div>
+                <div class="gallery-item" data-full-src="ninos.png"><img src="ninos.png" alt="Otro grupo de niños"></div>
+                <div class="gallery-item span-2-col" data-full-src="pastor.png"><img src="pastor.jpg" alt="Pastor"></div>
+                <div class="gallery-item" data-full-src="pastora.jpg"><img src="pastora.jpg" alt="Pastora"></div>
+                <div class="gallery-item span-2-col" data-full-src="serviciondominical.png"><img src="serviciondominical.png" alt="Servicio Dominical"></div>
+                <div class="gallery-item" data-full-src="UNA.png"><img src="UNA.png" alt="Evento UNA"></div>
             </div>
         </section>
 
@@ -110,8 +110,15 @@
         </div>
     </div>
 
+    <div id="imageModal" class="modal image-viewer-modal">
+        <div class="modal-content">
+            <span class="close-button" data-modal="imageModal">&times;</span>
+            <img id="modalImage" src="" alt="Vista ampliada de la imagen">
+        </div>
+    </div>
+
     <script>
-        // Funciones para mostrar/ocultar secciones principales
+        // --- Funciones de Navegación de Secciones ---
         const inicioSection = document.getElementById('inicio-content');
         const recursosSection = document.getElementById('recursos-content');
         const chatSection = document.getElementById('chat-content');
@@ -150,18 +157,24 @@
             inicioSection.classList.remove('hidden');
         });
 
-        // Funciones para abrir/cerrar modales
+        // --- Funciones para abrir/cerrar Modales Generales ---
         function openModal(modalId) {
-            document.getElementById(modalId).style.display = 'flex'; // Usamos flex para centrar
-            document.body.style.overflow = 'hidden'; // Evita scroll en el body cuando el modal está abierto
+            const modalElement = document.getElementById(modalId);
+            if (modalElement) {
+                modalElement.style.display = 'flex'; // Usamos flex para centrar
+                document.body.style.overflow = 'hidden'; // Evita scroll en el body cuando el modal está abierto
+            }
         }
 
         function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-            document.body.style.overflow = ''; // Restaura el scroll del body
+            const modalElement = document.getElementById(modalId);
+            if (modalElement) {
+                modalElement.style.display = 'none';
+                document.body.style.overflow = ''; // Restaura el scroll del body
+            }
         }
 
-        // Event Listeners para abrir los modales
+        // --- Event Listeners para abrir los Modales de Recursos ---
         document.getElementById('openEvangelizacionModalBtn').addEventListener('click', (e) => {
             e.preventDefault();
             openModal('evangelizacionModal');
@@ -177,7 +190,7 @@
             openModal('discipuladoModal');
         });
 
-        // Event Listeners para cerrar los modales (botones 'x' y clic fuera)
+        // --- Event Listeners para cerrar Modales (botones 'x' y clic fuera) ---
         document.querySelectorAll('.close-button').forEach(button => {
             button.addEventListener('click', (e) => {
                 const modalId = e.target.dataset.modal;
@@ -187,11 +200,25 @@
 
         window.addEventListener('click', (event) => {
             if (event.target.classList.contains('modal')) {
+                // Solo cerrar si se hace clic directamente en el fondo del modal (no en su contenido)
                 closeModal(event.target.id);
             }
         });
 
+        // --- Lógica Específica para el Modal de Imágenes ---
+        const modalImage = document.getElementById('modalImage');
+        const galleryItems = document.querySelectorAll('.image-gallery .gallery-item');
+
+        galleryItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const fullSrc = item.dataset.fullSrc; // Obtiene la ruta de la imagen completa
+                if (fullSrc) {
+                    modalImage.src = fullSrc; // Establece la fuente de la imagen en el modal
+                    openModal('imageModal'); // Abre el modal de imagen
+                }
+            });
+        });
+
     </script>
-    <script src="script.js"></script>
-</body>
+    </body>
 </html>
