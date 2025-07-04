@@ -4,41 +4,63 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Centro Cristiano de Restauración Los Ríos</title>
-    <!-- Fuente Montserrat -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-    <header>
-        <img src="CCRLR.png" alt="Logo de la iglesia" class="logo" />
-        <h1 class="nombre-iglesia">Centro Cristiano de Restauración Los Ríos</h1>
+    <header class="main-header">
+        <img src="portada.png" alt="Portada de la Iglesia" class="hero-image" />
     </header>
 
-    <nav>
-        <a href="#inicio">Inicio</a>
-        <a href="#recursos">Recursos</a>
-        <a href="#chat">Chat</a>
+    <nav class="fixed-nav">
+        <a href="#" id="showInicio">Inicio</a>
+        <a href="#" id="showRecursos">Recursos</a>
+        <a href="#" id="showChat">Chat</a>
     </nav>
 
     <main>
-        <section id="inicio">
+        <section id="inicio-content" class="content-section">
             <h2>Bienvenidos</h2>
             <p>Bienvenidos al sitio oficial de nuestra iglesia. Aquí encontrarás recursos y un espacio para la comunidad.</p>
+
+            <div class="image-gallery">
+                <div class="gallery-item span-2-col"><img src="afuera.jpg" alt="Actividad al aire libre"></div>
+                <div class="gallery-item"><img src="aniversario.jpg" alt="Aniversario de la iglesia"></div>
+                <div class="gallery-item"><img src="BENDICION.png" alt="Bendición"></div>
+                <div class="gallery-item"><img src="danza.jpg" alt="Danza en la iglesia"></div>
+                <div class="gallery-item span-2-col"><img src="ECO.png" alt="Evento ECO"></div>
+                <div class="gallery-item"><img src="hninos.jpg" alt="Niños de la iglesia"></div>
+                <div class="gallery-item"><img src="ninos.png" alt="Otro grupo de niños"></div>
+                <div class="gallery-item span-2-col"><img src="pastor.png" alt="Pastor"></div>
+                <div class="gallery-item"><img src="pastora.jpg" alt="Pastora"></div>
+                <div class="gallery-item span-2-col"><img src="serviciondominical.png" alt="Servicio Dominical"></div>
+                <div class="gallery-item"><img src="UNA.png" alt="Evento UNA"></div>
+            </div>
         </section>
 
-        <section id="recursos">
-            <h2>Planes de Evangelización</h2>
-            <p>Consulta nuestro plan de evangelización directamente aquí:</p>
-            <iframe 
-                src="https://centrocristianoderestauracionlosrios.github.io/ecuador/" 
-                width="100%" 
-                height="600" 
-                frameborder="0" 
-                title="Plan de Evangelización">
-            </iframe>
+        <section id="recursos-content" class="content-section hidden">
+            <h2>Nuestros Recursos</h2>
+            
+            <div class="resource-item">
+                <h3>Plan de Evangelización</h3>
+                <p>Consulta nuestro plan de evangelización directamente aquí:</p>
+                <a href="#" id="openEvangelizacionModalBtn">Ver Plan de Evangelización</a>
+            </div>
+            
+            <div class="resource-item">
+                <h3>Lectura de Libros (PDF)</h3>
+                <p>Aquí podrás encontrar y leer libros en formato PDF. Haz clic en el título para abrir el libro.</p>
+                <a href="#" id="openLibrosModalBtn">Ver Libros</a>
+            </div>
+
+            <div class="resource-item">
+                <h3>Guía de Discipulado</h3>
+                <p>Descubre nuestra guía de discipulado para tu crecimiento espiritual.</p>
+                <a href="#" id="openDiscipuladoModalBtn">Ver Guía de Discipulado</a>
+            </div>
         </section>
 
-        <section id="chat">
+        <section id="chat-content" class="content-section hidden">
             <h2>Chat de Oración</h2>
             <div id="chat-box"></div>
             <div id="chat-input">
@@ -52,6 +74,124 @@
         <p>© 2025 Centro Cristiano de Restauración Los Ríos. Todos los derechos reservados.</p>
     </footer>
 
+    <div id="evangelizacionModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" data-modal="evangelizacionModal">&times;</span>
+            <h3>Plan de Evangelización</h3>
+            <iframe
+                src="https://centrocristianoderestauracionlosrios.github.io/ecuador/"
+                width="100%"
+                height="500px"
+                frameborder="0"
+                title="Plan de Evangelización"
+            ></iframe>
+        </div>
+    </div>
+
+    <div id="librosModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" data-modal="librosModal">&times;</span>
+            <h3>Lectura de Libros (PDF)</h3>
+            <ul>
+                <li><a href="ruta/a/tu/libro1.pdf" target="_blank" rel="noopener noreferrer">Título del Libro 1</a></li>
+                <li><a href="ruta/a/tu/libro2.pdf" target="_blank" rel="noopener noreferrer">Título del Libro 2</a></li>
+                </ul>
+        </div>
+    </div>
+
+    <div id="discipuladoModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" data-modal="discipuladoModal">&times;</span>
+            <h3>Guía de Discipulado</h3>
+            <p>Descubre nuestra guía de discipulado para tu crecimiento espiritual.</p>
+            <p>
+                <a href="ruta/a/tu/guia-discipulado.pdf" target="_blank" rel="noopener noreferrer">Descargar Guía de Discipulado (PDF)</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Funciones para mostrar/ocultar secciones principales
+        const inicioSection = document.getElementById('inicio-content');
+        const recursosSection = document.getElementById('recursos-content');
+        const chatSection = document.getElementById('chat-content');
+
+        const showInicioBtn = document.getElementById('showInicio');
+        const showRecursosBtn = document.getElementById('showRecursos');
+        const showChatBtn = document.getElementById('showChat');
+
+        function hideAllSections() {
+            inicioSection.classList.add('hidden');
+            recursosSection.classList.add('hidden');
+            chatSection.classList.add('hidden');
+        }
+
+        showInicioBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            hideAllSections();
+            inicioSection.classList.remove('hidden');
+        });
+
+        showRecursosBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            hideAllSections();
+            recursosSection.classList.remove('hidden');
+        });
+
+        showChatBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            hideAllSections();
+            chatSection.classList.remove('hidden');
+        });
+
+        // Mostrar la sección de inicio por defecto al cargar la página
+        document.addEventListener('DOMContentLoaded', () => {
+            hideAllSections();
+            inicioSection.classList.remove('hidden');
+        });
+
+        // Funciones para abrir/cerrar modales
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex'; // Usamos flex para centrar
+            document.body.style.overflow = 'hidden'; // Evita scroll en el body cuando el modal está abierto
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+            document.body.style.overflow = ''; // Restaura el scroll del body
+        }
+
+        // Event Listeners para abrir los modales
+        document.getElementById('openEvangelizacionModalBtn').addEventListener('click', (e) => {
+            e.preventDefault();
+            openModal('evangelizacionModal');
+        });
+
+        document.getElementById('openLibrosModalBtn').addEventListener('click', (e) => {
+            e.preventDefault();
+            openModal('librosModal');
+        });
+
+        document.getElementById('openDiscipuladoModalBtn').addEventListener('click', (e) => {
+            e.preventDefault();
+            openModal('discipuladoModal');
+        });
+
+        // Event Listeners para cerrar los modales (botones 'x' y clic fuera)
+        document.querySelectorAll('.close-button').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const modalId = e.target.dataset.modal;
+                closeModal(modalId);
+            });
+        });
+
+        window.addEventListener('click', (event) => {
+            if (event.target.classList.contains('modal')) {
+                closeModal(event.target.id);
+            }
+        });
+
+    </script>
     <script src="script.js"></script>
 </body>
 </html>
