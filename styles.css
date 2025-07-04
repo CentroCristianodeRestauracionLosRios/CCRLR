@@ -63,7 +63,7 @@ main {
     max-width: 960px; /* Ancho máximo para el contenido principal */
     margin: 20px auto; /* Centra el contenedor y añade margen superior/inferior */
     background-color: white; /* Fondo blanco para el área de contenido */
-    border-radius: 8px; /* Bordes ligeramente redondeados */
+    border-radius: 8一層; /* Bordes ligeramente redondeados */
     box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Sombra sutil */
 }
 
@@ -290,7 +290,7 @@ footer {
 .modal {
     display: none; /* Oculto por defecto; JavaScript lo cambia a 'flex' para mostrarlo */
     position: fixed; /* Se mantiene fijo en la pantalla */
-    z-index: 1000; /* Asegura que esté por encima de casi todo el contenido */
+    z-index: 1002; /* CAMBIO: Asegura que esté por encima de la navegación fija (que es 1001) */
     left: 0;
     top: 0;
     width: 100%; /* Ocupa todo el ancho */
