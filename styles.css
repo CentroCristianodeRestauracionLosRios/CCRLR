@@ -108,35 +108,37 @@ p {
 }
 
 /* ------------------------------------------------------------- */
-/* Estilos para la Galería de Imágenes en la Sección de Inicio */
+/* Estilos para la Galería de Miniaturas en la Sección de Inicio */
 /* ------------------------------------------------------------- */
 .image-gallery {
     display: grid; /* Usa CSS Grid para un diseño de cuadrícula */
-    /* Columnas adaptativas: mínimo 200px por columna, máximo 1fr (distribuye equitativamente) */
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 15px; /* Espacio entre las imágenes (gap) */
-    padding: 20px; /* Relleno interno para la galería */
-    background-color: #e6ffe6; /* Un color de fondo muy suave para la galería (verde claro) */
+    /* Columnas adaptativas: miniaturas entre ~2cm (75px) y ~5cm (190px) de ancho */
+    grid-template-columns: repeat(auto-fit, minmax(75px, 190px));
+    gap: 10px; /* Espacio más reducido entre miniaturas */
+    padding: 15px; /* Relleno interno para la galería */
+    background-color: #f0f8ff; /* Un color de fondo muy suave para la galería (azul muy claro) */
     border-radius: 10px; /* Bordes redondeados para la galería */
     margin-top: 30px; /* Margen superior */
     box-shadow: inset 0 0 10px rgba(0,0,0,0.05); /* Sombra interna sutil para un efecto de "hoyo" */
+    justify-content: center; /* Centra la cuadrícula si no ocupa todo el ancho */
 }
 
 .gallery-item {
     overflow: hidden; /* Oculta cualquier parte de la imagen que se desborde, importante para border-radius */
-    border-radius: 10px; /* Bordes redondeados para cada ítem de la galería */
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Sombra estándar para dar profundidad */
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transición suave para los efectos hover */
+    border-radius: 8px; /* Bordes ligeramente redondeados para miniaturas */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Sombra más sutil */
+    transition: transform 0.2s ease, box-shadow 0.2s ease; /* Transición suave para los efectos hover */
     background-color: #fff; /* Fondo blanco para cada ítem de galería */
     display: flex; /* Utiliza flexbox para centrar la imagen dentro del ítem */
     justify-content: center;
     align-items: center;
-    height: 200px; /* Altura fija para la mayoría de las imágenes, se cubrirá con object-fit */
+    cursor: pointer; /* Indica que es clickeable */
+    height: 120px; /* Altura fija para miniaturas, ajusta según el aspecto deseado */
 }
 
 .gallery-item:hover {
-    transform: translateY(-5px) scale(1.02); /* Ligero levantamiento y escala al pasar el ratón */
-    box-shadow: 0 8px 16px rgba(0,0,0,0.2); /* Sombra más pronunciada al pasar el ratón */
+    transform: translateY(-3px) scale(1.05); /* Efecto hover más pronunciado: ligero levantamiento y escala */
+    box-shadow: 0 5px 10px rgba(0,0,0,0.2); /* Sombra más notable al pasar el ratón */
 }
 
 .gallery-item img {
@@ -144,20 +146,22 @@ p {
     height: 100%; /* La imagen ocupa toda la altura del contenedor */
     object-fit: cover; /* Cubre el área, recortando si es necesario para mantener la proporción */
     display: block; /* Elimina el espacio extra debajo de la imagen (común con imágenes inline) */
-    transition: transform 0.5s ease; /* Transición suave para el zoom de la imagen */
+    transition: transform 0.3s ease; /* Transición suave para el zoom de la imagen */
 }
 
 .gallery-item:hover img {
-    transform: scale(1.05); /* Ligerísimo zoom en la imagen al pasar el ratón */
+    transform: scale(1.1); /* Zoom más notable en la miniatura */
 }
 
 /* Media query para ajustar la cuadrícula en pantallas más grandes (tablets y escritorios) */
 @media (min-width: 768px) {
+    /* Permitir más columnas en pantallas grandes si las miniaturas son muy pequeñas */
     .image-gallery {
-        grid-template-columns: repeat(3, 1fr); /* En pantallas más grandes, la cuadrícula tendrá 3 columnas de igual ancho */
+        grid-template-columns: repeat(auto-fit, minmax(75px, 150px)); /* Ajusta el max a un valor más pequeño */
     }
     .gallery-item.span-2-col {
         grid-column: span 2; /* Los ítems con esta clase ocuparán 2 columnas */
+        height: 120px; /* Mantener la altura base para que no se vea desproporcionado */
     }
 }
 
@@ -311,7 +315,25 @@ footer {
     position: relative; /* Necesario para posicionar el botón de cerrar de forma absoluta */
 }
 
-/* Botón para cerrar el modal */
+/* Estilos específicos para el contenido del modal de visualización de imágenes */
+.modal.image-viewer-modal .modal-content {
+    max-width: 90%; /* Más ancho para ver imágenes grandes */
+    width: auto; /* Ancho automático para adaptarse a la imagen */
+    background: none; /* Fondo transparente para que solo se vea la imagen */
+    box-shadow: none; /* Sin sombra en el modal de imagen */
+    padding: 0; /* Sin padding en el modal de imagen */
+}
+
+.modal.image-viewer-modal .modal-content img {
+    max-width: 100%; /* Asegura que la imagen no exceda el ancho del modal */
+    max-height: 80vh; /* Asegura que la imagen no exceda la altura del viewport */
+    display: block; /* Asegura que la imagen sea un bloque */
+    margin: auto; /* Centra la imagen */
+    border-radius: 8px; /* Bordes redondeados para la imagen grande */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5); /* Sombra para la imagen ampliada */
+}
+
+/* Botón para cerrar el modal (general) */
 .close-button {
     color: #aaa; /* Color del ícono 'x' */
     float: right; /* Flota a la derecha (aunque con position absolute es más preciso) */
@@ -321,6 +343,15 @@ footer {
     top: 10px; /* Distancia desde la parte superior */
     right: 20px; /* Distancia desde la derecha */
     cursor: pointer; /* Cambia el cursor a una mano */
+}
+
+/* Estilos del botón de cerrar modal para el visor de imágenes */
+.modal.image-viewer-modal .close-button {
+    color: white; /* Botón de cerrar blanco sobre fondo oscuro */
+    text-shadow: 0 0 5px black; /* Sombra de texto para visibilidad en fondo de imagen */
+    font-size: 40px; /* Más grande para que sea fácil de ver y clickear */
+    top: 0px; /* Ajuste de posición */
+    right: 15px; /* Ajuste de posición */
 }
 
 .close-button:hover,
