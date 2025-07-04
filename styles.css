@@ -336,30 +336,52 @@ footer {
 /* Botón para cerrar el modal (general) */
 .close-button {
     color: #aaa; /* Color del ícono 'x' */
-    float: right; /* Flota a la derecha (aunque con position absolute es más preciso) */
+    /* float: right;  Eliminado, ya que position: absolute es más preciso */
     font-size: 28px; /* Tamaño del ícono */
     font-weight: bold; /* Negrita */
     position: absolute; /* Posiciona de forma absoluta respecto a .modal-content */
     top: 10px; /* Distancia desde la parte superior */
     right: 20px; /* Distancia desde la derecha */
     cursor: pointer; /* Cambia el cursor a una mano */
+    /* Asegura que esté por encima del contenido del modal */
+    z-index: 10;
+    background-color: rgba(255, 255, 255, 0.8); /* Fondo semi-transparente para la 'x' */
+    border-radius: 50%; /* Circular */
+    width: 30px; /* Ancho del círculo */
+    height: 30px; /* Alto del círculo */
+    display: flex; /* Para centrar la 'x' dentro del círculo */
+    justify-content: center;
+    align-items: center;
+    line-height: 1; /* Ajusta la altura de línea para centrar el texto */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Sombra para el botón */
 }
 
 /* Estilos del botón de cerrar modal para el visor de imágenes */
 .modal.image-viewer-modal .close-button {
-    color: white; /* Botón de cerrar blanco sobre fondo oscuro */
+    color: white; /* Botón de cerrar blanco sobre fondo oscuro/imagen */
     text-shadow: 0 0 5px black; /* Sombra de texto para visibilidad en fondo de imagen */
     font-size: 40px; /* Más grande para que sea fácil de ver y clickear */
     top: 0px; /* Ajuste de posición */
     right: 15px; /* Ajuste de posición */
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro semi-transparente */
+    box-shadow: 0 0 10px rgba(0,0,0,0.5); /* Sombra más fuerte */
 }
 
 .close-button:hover,
 .close-button:focus {
-    color: black; /* Color más oscuro al pasar el ratón o enfocar */
+    color: black; /* Color más oscuro al pasar el ratón o enfocar (para modales de recursos) */
     text-decoration: none; /* Elimina subrayado */
     cursor: pointer;
+    background-color: rgba(255, 255, 255, 1); /* Fondo blanco sólido al pasar el ratón */
 }
+
+/* Hover específico para el botón de cerrar del visor de imágenes */
+.modal.image-viewer-modal .close-button:hover,
+.modal.image-viewer-modal .close-button:focus {
+    color: white; /* Mantiene el color blanco */
+    background-color: rgba(0, 0, 0, 0.7); /* Fondo más oscuro */
+}
+
 
 /* Animación de entrada del modal (aparece desde arriba) */
 @keyframes animatetop {

@@ -31,7 +31,7 @@
                 <div class="gallery-item span-2-col" data-full-src="ECO.png"><img src="ECO.png" alt="Evento ECO"></div>
                 <div class="gallery-item" data-full-src="hninos.jpg"><img src="hninos.jpg" alt="Niños de la iglesia"></div>
                 <div class="gallery-item" data-full-src="ninos.png"><img src="ninos.png" alt="Otro grupo de niños"></div>
-                <div class="gallery-item span-2-col" data-full-src="pastor.png"><img src="pastor.jpg" alt="Pastor"></div>
+                <div class="gallery-item span-2-col" data-full-src="pastor.png"><img src="pastor.png" alt="Pastor"></div>
                 <div class="gallery-item" data-full-src="pastora.jpg"><img src="pastora.jpg" alt="Pastora"></div>
                 <div class="gallery-item span-2-col" data-full-src="serviciondominical.png"><img src="serviciondominical.png" alt="Servicio Dominical"></div>
                 <div class="gallery-item" data-full-src="UNA.png"><img src="UNA.png" alt="Evento UNA"></div>
@@ -117,108 +117,6 @@
         </div>
     </div>
 
-    <script>
-        // --- Funciones de Navegación de Secciones ---
-        const inicioSection = document.getElementById('inicio-content');
-        const recursosSection = document.getElementById('recursos-content');
-        const chatSection = document.getElementById('chat-content');
-
-        const showInicioBtn = document.getElementById('showInicio');
-        const showRecursosBtn = document.getElementById('showRecursos');
-        const showChatBtn = document.getElementById('showChat');
-
-        function hideAllSections() {
-            inicioSection.classList.add('hidden');
-            recursosSection.classList.add('hidden');
-            chatSection.classList.add('hidden');
-        }
-
-        showInicioBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            hideAllSections();
-            inicioSection.classList.remove('hidden');
-        });
-
-        showRecursosBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            hideAllSections();
-            recursosSection.classList.remove('hidden');
-        });
-
-        showChatBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            hideAllSections();
-            chatSection.classList.remove('hidden');
-        });
-
-        // Mostrar la sección de inicio por defecto al cargar la página
-        document.addEventListener('DOMContentLoaded', () => {
-            hideAllSections();
-            inicioSection.classList.remove('hidden');
-        });
-
-        // --- Funciones para abrir/cerrar Modales Generales ---
-        function openModal(modalId) {
-            const modalElement = document.getElementById(modalId);
-            if (modalElement) {
-                modalElement.style.display = 'flex'; // Usamos flex para centrar
-                document.body.style.overflow = 'hidden'; // Evita scroll en el body cuando el modal está abierto
-            }
-        }
-
-        function closeModal(modalId) {
-            const modalElement = document.getElementById(modalId);
-            if (modalElement) {
-                modalElement.style.display = 'none';
-                document.body.style.overflow = ''; // Restaura el scroll del body
-            }
-        }
-
-        // --- Event Listeners para abrir los Modales de Recursos ---
-        document.getElementById('openEvangelizacionModalBtn').addEventListener('click', (e) => {
-            e.preventDefault();
-            openModal('evangelizacionModal');
-        });
-
-        document.getElementById('openLibrosModalBtn').addEventListener('click', (e) => {
-            e.preventDefault();
-            openModal('librosModal');
-        });
-
-        document.getElementById('openDiscipuladoModalBtn').addEventListener('click', (e) => {
-            e.preventDefault();
-            openModal('discipuladoModal');
-        });
-
-        // --- Event Listeners para cerrar Modales (botones 'x' y clic fuera) ---
-        document.querySelectorAll('.close-button').forEach(button => {
-            button.addEventListener('click', (e) => {
-                const modalId = e.target.dataset.modal;
-                closeModal(modalId);
-            });
-        });
-
-        window.addEventListener('click', (event) => {
-            if (event.target.classList.contains('modal')) {
-                // Solo cerrar si se hace clic directamente en el fondo del modal (no en su contenido)
-                closeModal(event.target.id);
-            }
-        });
-
-        // --- Lógica Específica para el Modal de Imágenes ---
-        const modalImage = document.getElementById('modalImage');
-        const galleryItems = document.querySelectorAll('.image-gallery .gallery-item');
-
-        galleryItems.forEach(item => {
-            item.addEventListener('click', () => {
-                const fullSrc = item.dataset.fullSrc; // Obtiene la ruta de la imagen completa
-                if (fullSrc) {
-                    modalImage.src = fullSrc; // Establece la fuente de la imagen en el modal
-                    openModal('imageModal'); // Abre el modal de imagen
-                }
-            });
-        });
-
-    </script>
-    </body>
+    <script src="script.js"></script>
+</body>
 </html>
