@@ -77,8 +77,11 @@
         <p>© 2025 Centro Cristiano de Restauración Los Ríos. Todos los derechos reservados.</p>
     </footer>
 
-    <!-- **NUEVA FORMA DE CARGAR FIREBASE MODULARMENTE** -->
-    <!-- Define la configuración de Firebase globalmente para que script.js pueda acceder a ella -->
+    <div id="imageModal" class="image-modal">
+        <span class="close-button">&times;</span>
+        <img class="modal-content" id="img01">
+    </div>
+
     <script>
         const firebaseConfig = {
             apiKey: "AIzaSyCHznVAG8HyaAwzTMcYXrEjS4ikcgf9Nx0",
@@ -91,7 +94,6 @@
             measurementId: "G-P71V26NFRE"
         };
     </script>
-    <!-- Tu script.js (ahora será un módulo) -->
     <script type="module" src="script.js"></script>
 </body>
 </html>

@@ -9,7 +9,42 @@ const database = getDatabase(app);
 const messagesRef = ref(database, 'messages'); // 'messages' es el nodo principal de tus mensajes
 
 document.addEventListener('DOMContentLoaded', () => {
-    // ... (Tu lógica existente para la galería de imágenes) ...
+    // Lógica para el modal de imagen de la galería - AÑADIDO/MODIFICADO AQUÍ
+    const imageModal = document.getElementById('imageModal');
+    const modalImg = document.getElementById('img01');
+    const closeButton = document.querySelector('.close-button'); // Selector de la 'X' para cerrar
+
+    const galleryItems = document.querySelectorAll('.image-gallery .gallery-item');
+
+    galleryItems.forEach(item => {
+        item.addEventListener('click', () => {
+            imageModal.style.display = 'block'; // Muestra el modal
+            modalImg.src = item.getAttribute('data-full-src'); // Establece la imagen grande
+            // Puedes añadir una descripción si tu HTML tuviera un div para ello y el item tuviera un data-caption
+            // const captionText = document.getElementById('caption');
+            // captionText.innerHTML = item.querySelector('img').alt; 
+        });
+    });
+
+    // Cierra el modal cuando se hace clic en la 'x'
+    closeButton.addEventListener('click', () => {
+        imageModal.style.display = 'none';
+    });
+
+    // Cierra el modal cuando se hace clic fuera de la imagen (en el fondo oscuro)
+    imageModal.addEventListener('click', (event) => {
+        if (event.target === imageModal) {
+            imageModal.style.display = 'none';
+        }
+    });
+
+    // Cierra el modal con la tecla Escape
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && imageModal.style.display === 'block') {
+            imageModal.style.display = 'none';
+        }
+    });
+
 
     // Lógica del Chat con Firebase Realtime Database
     const chatBox = document.getElementById('chat-box');

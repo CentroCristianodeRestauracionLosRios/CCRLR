@@ -289,3 +289,64 @@ footer {
         padding: 10px;
     }
 }
+
+/* --- Estilos para el Modal de Imagen - AÑADIDO AQUÍ --- */
+.image-modal {
+    display: none; /* Oculto por defecto */
+    position: fixed; /* Se posiciona sobre todo el contenido */
+    z-index: 200; /* Asegura que esté por encima de todo (incluida la nav fija) */
+    padding-top: 60px; /* Un poco de espacio desde arriba */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* Permite scroll si la imagen es muy grande */
+    background-color: rgba(0, 0, 0, 0.9); /* Fondo oscuro semitransparente */
+    box-sizing: border-box; /* Incluye padding y border en el tamaño total */
+}
+
+.modal-content {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+    max-height: 90vh; /* Para que no sea más alta que la ventana */
+    object-fit: contain; /* Asegura que la imagen se ajuste sin recortarse */
+}
+
+/* Botón de cerrar (la X) */
+.close-button {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Animación para el modal de imagen */
+.image-modal .modal-content, #caption {
+    animation-name: zoom;
+    animation-duration: 0.6s;
+}
+
+@keyframes zoom {
+    from {transform: scale(0.1)} 
+    to {transform: scale(1)}
+}
+
+/* Responsive para el modal en pantallas pequeñas */
+@media only screen and (max-width: 700px){
+    .modal-content {
+        width: 100%;
+    }
+}
