@@ -7,11 +7,9 @@
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     
-    <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
-    <!-- Si usas Analytics, también lo incluyes aquí -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-analytics.js"></script>
     
     <script>
@@ -30,7 +28,7 @@
 </head>
 <body>
     <header class="main-header">
-        <img src="image_2de4bd.jpg" alt="Imagen de encabezado" class="hero-image">
+        <img src="portada.png" alt="Encabezado del sitio web" class="hero-image">
     </header>
 
     <nav class="fixed-nav">
@@ -59,23 +57,41 @@
         <section id="gallery" class="content-section">
             <h2>Galería Inspiradora</h2>
             <div class="image-gallery">
-                <div class="gallery-item" data-full-src="image_556ce6.png">
-                    <img src="image_556ce6.png" alt="Imagen 1">
+                <div class="gallery-item" data-full-src="afuera.jpg">
+                    <img src="afuera.jpg" alt="Imagen Afuera">
                 </div>
-                <div class="gallery-item span-2-col" data-full-src="image_2cf8b8.png">
-                    <img src="image_2cf8b8.png" alt="Imagen 2">
+                <div class="gallery-item" data-full-src="aniversario.jpg">
+                    <img src="aniversario.jpg" alt="Imagen Aniversario">
                 </div>
-                <div class="gallery-item" data-full-src="image_55da9c.png">
-                    <img src="image_55da9c.png" alt="Imagen 3">
+                <div class="gallery-item" data-full-src="danza.jpg">
+                    <img src="danza.jpg" alt="Imagen Danza">
                 </div>
-                <div class="gallery-item" data-full-src="image_564a43.png">
-                    <img src="image_564a43.png" alt="Imagen 4">
+                <div class="gallery-item" data-full-src="hninos.jpg">
+                    <img src="hninos.jpg" alt="Imagen Niños">
                 </div>
-                <div class="gallery-item" data-full-src="image_56c282.png">
-                    <img src="image_56c282.png" alt="Imagen 5">
+                <div class="gallery-item" data-full-src="iglesia.jpg">
+                    <img src="iglesia.jpg" alt="Imagen Iglesia">
                 </div>
-                <div class="gallery-item" data-full-src="image_2c13d9.png">
-                    <img src="image_2c13d9.png" alt="Imagen 6">
+                <div class="gallery-item" data-full-src="pastor.jpg">
+                    <img src="pastor.jpg" alt="Imagen Pastor">
+                </div>
+                <div class="gallery-item" data-full-src="pastora.jpg">
+                    <img src="pastora.jpg" alt="Imagen Pastora">
+                </div>
+                <div class="gallery-item" data-full-src="BENDICION.png">
+                    <img src="BENDICION.png" alt="Imagen Bendición">
+                </div>
+                <div class="gallery-item" data-full-src="ECO.png">
+                    <img src="ECO.png" alt="Imagen ECO">
+                </div>
+                <div class="gallery-item" data-full-src="ninos.png">
+                    <img src="ninos.png" alt="Imagen Niños">
+                </div>
+                <div class="gallery-item" data-full-src="serviciondominical.png">
+                    <img src="serviciondominical.png" alt="Imagen Servicio Dominical">
+                </div>
+                <div class="gallery-item" data-full-src="UNA.png">
+                    <img src="UNA.png" alt="Imagen UNA">
                 </div>
             </div>
         </section>
@@ -102,7 +118,6 @@
 
         <section id="chat" class="content-section">
             <h2>Chat en Vivo</h2>
-            <!-- Elementos para autenticación -->
             <div id="auth-status">
                 <span id="user-info">No has iniciado sesión.</span>
                 <button id="login-button" class="auth-button" style="display: none;">Iniciar sesión con Google</button>
@@ -112,8 +127,7 @@
 
             <div id="chat-container">
                 <div id="chat-box">
-                    <!-- Los mensajes se cargarán aquí -->
-                </div>
+                    </div>
                 <div id="chat-input">
                     <input type="text" id="message" placeholder="Escribe tu mensaje..." disabled>
                     <button id="sendBtn" disabled>Enviar</button>
@@ -126,7 +140,6 @@
         <p>&copy; 2025 Espacio de Interacción. Todos los derechos reservados.</p>
     </footer>
 
-    <!-- Modal de Imagen -->
     <div id="imageModal" class="image-modal">
         <span class="close-button">&times;</span>
         <img class="modal-content" id="img01">
