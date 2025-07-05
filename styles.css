@@ -1,397 +1,291 @@
-/* Estilos generales para todo el cuerpo de la página */
+/* Paleta de Colores Definida */
+:root {
+    --prussian-blue: #003153; /* Azul oscuro y elegante */
+    --dark-gold: #CC9900;    /* Dorado oscuro vibrante */
+    --white: #FFFFFF;
+    --black: #1A1A1A;        /* Negro muy oscuro, casi negro */
+    --light-gray: #f4f4f4;   /* Gris muy claro para fondos generales */
+    --medium-gray: #E0E0E0;  /* Gris claro para mensajes recibidos */
+    --green-accent: #28a745; /* Mantengo un verde para el botón de enviar chat, es opcional */
+}
+
+/* Estilos Generales y Reset Básico */
 body {
-    font-family: 'Montserrat', sans-serif; /* Fuente principal para el texto */
-    margin: 0; /* Elimina el margen por defecto del navegador */
-    padding: 0; /* Elimina el padding por defecto del navegador */
-    box-sizing: border-box; /* Incluye padding y borde en el ancho/alto del elemento */
-    background-color: #f4f4f4; /* Un color de fondo suave para toda la página */
-    color: #333; /* Color de texto principal */
-    padding-top: 60px; /* Espacio superior para la navegación fija, evita que el contenido quede oculto detrás de ella */
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: var(--light-gray); /* Fondo general muy claro */
+    color: var(--black); /* Texto principal negro oscuro */
+    line-height: 1.6;
 }
 
-/* Estilos para el encabezado principal que contiene la imagen de portada */
+/* Estilos de la Cabecera Principal */
 .main-header {
-    width: 100%; /* Ocupa todo el ancho disponible */
-    overflow: hidden; /* Oculta cualquier contenido que se desborde */
-    display: flex; /* Utiliza flexbox para centrar la imagen */
-    justify-content: center; /* Centra horizontalmente */
-    align-items: center; /* Centra verticalmente */
-    height: 80vh; /* Ocupa el 80% de la altura de la ventana (viewport height) */
-    position: relative; /* Necesario para posicionar la imagen absoluta dentro de él */
-    margin-bottom: 20px; /* Margen inferior para separar de la sección principal */
+    width: 100%;
+    overflow: hidden;
+    background-color: var(--prussian-blue); /* Fondo azul de Prusia */
 }
 
-/* Estilos para la imagen de portada dentro del encabezado */
 .hero-image {
-    width: 100%; /* Ocupa el 100% del ancho del contenedor */
-    height: 100%; /* Ocupa el 100% de la altura del contenedor */
-    object-fit: cover; /* Recorta la imagen para cubrir completamente el área, manteniendo su proporción */
-    object-position: center; /* Prioriza el centro de la imagen para el recorte */
-    position: absolute; /* Posiciona la imagen de forma absoluta dentro de .main-header */
-    top: 0;
-    left: 0;
+    width: 100%;
+    height: auto;
+    display: block;
 }
 
-/* Estilos para la barra de navegación fija en la parte superior */
+/* Estilos de la Navegación Fija */
 .fixed-nav {
-    background-color: #333; /* Fondo oscuro para la barra de navegación */
-    padding: 0.8rem 0; /* Relleno superior e inferior */
-    text-align: center; /* Centra los enlaces */
-    position: fixed; /* Hace que la barra de navegación sea fija en la pantalla */
-    top: 0; /* La coloca en la parte superior del viewport */
-    width: 100%; /* Ocupa todo el ancho de la pantalla */
-    z-index: 1001; /* Asegura que la navegación esté por encima de otros elementos */
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Sombra sutil para dar profundidad */
+    position: sticky;
+    top: 0;
+    width: 100%;
+    background-color: var(--prussian-blue); /* Fondo azul de Prusia */
+    padding: 10px 0;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4); /* Sombra más pronunciada para contraste */
+    z-index: 100;
 }
 
-/* Estilos para los enlaces dentro de la barra de navegación */
 .fixed-nav a {
-    color: white; /* Color del texto del enlace */
-    text-decoration: none; /* Elimina el subrayado por defecto de los enlaces */
-    padding: 0.8rem 1.5rem; /* Relleno alrededor del texto del enlace */
-    display: inline-block; /* Permite aplicar padding y margin verticalmente */
-    transition: background-color 0.3s ease; /* Transición suave para el efecto hover */
+    color: var(--white); /* Texto blanco para la navegación */
+    text-decoration: none;
+    padding: 10px 20px;
+    margin: 0 10px;
+    font-weight: 700;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.fixed-nav a:hover {
-    background-color: #555; /* Fondo más oscuro al pasar el ratón */
+.fixed-nav a:hover,
+.fixed-nav a.active {
+    background-color: var(--dark-gold); /* Dorado oscuro al pasar el ratón */
+    color: var(--white); /* Texto blanco sobre dorado */
+    border-radius: 5px;
 }
 
-/* Estilos para el contenedor principal de contenido */
+/* Estilos de las Secciones de Contenido */
 main {
-    padding: 20px; /* Relleno interno */
-    max-width: 960px; /* Ancho máximo para el contenido principal */
-    margin: 20px auto; /* Centra el contenedor y añade margen superior/inferior */
-    background-color: white; /* Fondo blanco para el área de contenido */
-    border-radius: 8一層; /* Bordes ligeramente redondeados */
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Sombra sutil */
+    padding: 20px;
+    max-width: 1200px;
+    margin: 20px auto;
+    background-color: var(--white); /* Fondo blanco para el contenido principal */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.15); /* Sombra más suave */
+    border-radius: 8px;
 }
 
-/* Estilos base para todas las secciones de contenido (Inicio, Recursos, Chat) */
 .content-section {
-    padding: 20px; /* Relleno interno para cada sección */
+    padding: 40px 20px;
+    border-bottom: 1px solid #eee; /* Separador sutil */
 }
 
-/* Clase para ocultar secciones (manejada por JavaScript) */
-.hidden {
-    display: none;
+.content-section:last-child {
+    border-bottom: none;
 }
 
-/* Estilos para títulos h2 y h3 */
-h2, h3 {
-    color: #4CAF50; /* Color verde principal de la marca */
-    text-align: center; /* Centra el texto */
-    margin-bottom: 15px; /* Margen inferior */
-    font-family: 'Montserrat', sans-serif; /* Asegura el uso de Montserrat */
-    font-weight: 700; /* Texto en negrita para los títulos */
+.content-section h2 {
+    color: var(--prussian-blue); /* Títulos de sección en azul de Prusia */
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 2.5em;
+    border-bottom: 2px solid var(--dark-gold); /* Raya dorada debajo del título */
+    display: inline-block; /* Para que la raya solo ocupe el ancho del texto */
+    padding-bottom: 5px;
 }
 
-h2 {
-    font-size: 2.2em; /* Tamaño de fuente más grande para el título principal de la sección */
-    margin-bottom: 30px; /* Margen inferior más grande */
-    border-bottom: 2px solid #eee; /* Línea sutil debajo del título principal */
-    padding-bottom: 10px; /* Relleno debajo del título antes de la línea */
+.content-section p {
+    font-size: 1.1em;
+    margin-bottom: 20px;
+    text-align: justify;
+    color: var(--black); /* Texto de párrafo negro oscuro */
 }
 
-h3 {
-    font-size: 1.6em; /* Tamaño de fuente para subtítulos de las sub-secciones */
-    margin-top: 30px; /* Espacio superior para separar las sub-secciones */
-    margin-bottom: 15px;
-}
-
-/* Estilos para los párrafos de texto */
-p {
-    line-height: 1.6; /* Altura de línea para mejor legibilidad */
-    text-align: justify; /* Justifica el texto */
-    font-family: 'Montserrat', sans-serif; /* Asegura el uso de Montserrat */
-    margin-bottom: 15px; /* Margen inferior */
-}
-
-/* ------------------------------------------------------------- */
-/* Estilos para la Galería de Miniaturas en la Sección de Inicio */
-/* ------------------------------------------------------------- */
+/* --- Estilos de Galería de Imágenes --- */
 .image-gallery {
-    display: grid; /* Usa CSS Grid para un diseño de cuadrícula */
-    /* Columnas adaptativas: miniaturas entre ~2cm (75px) y ~5cm (190px) de ancho */
-    grid-template-columns: repeat(auto-fit, minmax(75px, 190px));
-    gap: 10px; /* Espacio más reducido entre miniaturas */
-    padding: 15px; /* Relleno interno para la galería */
-    background-color: #f0f8ff; /* Un color de fondo muy suave para la galería (azul muy claro) */
-    border-radius: 10px; /* Bordes redondeados para la galería */
-    margin-top: 30px; /* Margen superior */
-    box-shadow: inset 0 0 10px rgba(0,0,0,0.05); /* Sombra interna sutil para un efecto de "hoyo" */
-    justify-content: center; /* Centra la cuadrícula si no ocupa todo el ancho */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 30px;
 }
 
 .gallery-item {
-    overflow: hidden; /* Oculta cualquier parte de la imagen que se desborde, importante para border-radius */
-    border-radius: 8px; /* Bordes ligeramente redondeados para miniaturas */
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Sombra más sutil */
-    transition: transform 0.2s ease, box-shadow 0.2s ease; /* Transición suave para los efectos hover */
-    background-color: #fff; /* Fondo blanco para cada ítem de galería */
-    display: flex; /* Utiliza flexbox para centrar la imagen dentro del ítem */
-    justify-content: center;
-    align-items: center;
-    cursor: pointer; /* Indica que es clickeable */
-    height: 120px; /* Altura fija para miniaturas, ajusta según el aspecto deseado */
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra para los ítems de la galería */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
+    background-color: var(--white); /* Fondo blanco para las tarjetas de imagen */
+    border: 1px solid #ddd;
 }
 
 .gallery-item:hover {
-    transform: translateY(-3px) scale(1.05); /* Efecto hover más pronunciado: ligero levantamiento y escala */
-    box-shadow: 0 5px 10px rgba(0,0,0,0.2); /* Sombra más notable al pasar el ratón */
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
 .gallery-item img {
-    width: 100%; /* La imagen ocupa todo el ancho del contenedor */
-    height: 100%; /* La imagen ocupa toda la altura del contenedor */
-    object-fit: cover; /* Cubre el área, recortando si es necesario para mantener la proporción */
-    display: block; /* Elimina el espacio extra debajo de la imagen (común con imágenes inline) */
-    transition: transform 0.3s ease; /* Transición suave para el zoom de la imagen */
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    display: block;
 }
 
-.gallery-item:hover img {
-    transform: scale(1.1); /* Zoom más notable en la miniatura */
+.gallery-item.span-2-col {
+    grid-column: span 2;
 }
 
-/* Media query para ajustar la cuadrícula en pantallas más grandes (tablets y escritorios) */
-@media (min-width: 768px) {
-    /* Permitir más columnas en pantallas grandes si las miniaturas son muy pequeñas */
-    .image-gallery {
-        grid-template-columns: repeat(auto-fit, minmax(75px, 150px)); /* Ajusta el max a un valor más pequeño */
-    }
-    .gallery-item.span-2-col {
-        grid-column: span 2; /* Los ítems con esta clase ocuparán 2 columnas */
-        height: 120px; /* Mantener la altura base para que no se vea desproporcionado */
-    }
-}
-
-
-/* --------------------------------------------------- */
-/* Estilos Específicos para la Sección de Recursos */
-/* --------------------------------------------------- */
+/* --- Estilos para la sección de Recursos --- */
 .resource-item {
-    margin-bottom: 40px; /* Espacio entre cada bloque de recurso */
-    padding: 15px; /* Relleno interno */
-    border: 1px solid #e0e0e0; /* Borde suave para delinear */
-    border-radius: 8px; /* Bordes redondeados */
-    background-color: #fff; /* Fondo blanco */
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05); /* Sombra muy sutil */
-    text-align: center; /* Centra el contenido dentro de cada ítem */
+    background-color: var(--light-gray); /* Fondo gris claro para ítems de recursos */
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
-/* Estilo para los enlaces de "Ver [Recurso]" como botones */
-#recursos-content a:not(.close-button) { /* Aplica a enlaces dentro de recursos-content que NO sean botones de cerrar modal */
-    display: inline-block; /* Para que acepte padding y margin */
-    background-color: #4CAF50; /* Verde principal */
-    color: white; /* Color del texto */
-    padding: 12px 25px; /* Relleno del botón */
-    border-radius: 5px; /* Bordes redondeados */
-    text-decoration: none; /* Elimina el subrayado */
-    font-weight: 700; /* Texto en negrita */
-    transition: background-color 0.3s ease, transform 0.2s ease; /* Transiciones suaves */
-    margin-top: 10px; /* Espacio arriba del botón */
-    font-family: 'Montserrat', sans-serif; /* Fuente del botón */
-    letter-spacing: 0.5px; /* Pequeño espacio entre letras */
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2); /* Sombra para dar profundidad */
+.resource-item h3 {
+    color: var(--prussian-blue); /* Títulos de recursos en azul de Prusia */
+    margin-top: 0;
+    font-size: 1.8em;
 }
 
-#recursos-content a:not(.close-button):hover {
-    background-color: #45a049; /* Tono de verde más oscuro al pasar el ratón */
-    transform: translateY(-2px); /* Efecto sutil de levantamiento */
-    box-shadow: 0 4px 8px rgba(0,0,0,0.3); /* Sombra más pronunciada al pasar el ratón */
+.resource-item p {
+    font-size: 1em;
+    margin-bottom: 15px;
+    color: var(--black); /* Texto de párrafo negro oscuro */
 }
 
-/* Estilos para las listas de PDFs (si las vas a tener visibles directamente en la sección de recursos) */
-#recursos-content ul {
-    list-style: none; /* Elimina los puntos de la lista */
-    padding: 0; /* Elimina el padding por defecto de la lista */
-    margin-top: 20px; /* Margen superior */
-    text-align: left; /* Alinea los ítems de la lista a la izquierda */
+.resource-item a {
+    display: inline-block;
+    background-color: var(--dark-gold); /* Botones de recursos en dorado oscuro */
+    color: var(--white); /* Texto blanco */
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
 }
 
-#recursos-content ul li {
-    margin-bottom: 10px; /* Margen inferior entre ítems */
-    background-color: #e8f5e9; /* Un verde muy claro para cada ítem de lista */
-    padding: 10px 15px; /* Relleno interno */
-    border-radius: 5px; /* Bordes redondeados */
-    border-left: 5px solid #81c784; /* Borde izquierdo destacando */
-    display: flex; /* Utiliza flexbox para alinear contenido */
-    align-items: center; /* Centra verticalmente el contenido */
+.resource-item a:hover {
+    background-color: #B8860B; /* Un dorado un poco más oscuro al pasar el ratón */
 }
 
-#recursos-content ul li a {
-    color: #2e7d32; /* Un verde oscuro para el texto del enlace en lista */
-    text-decoration: none; /* Elimina el subrayado */
-    font-weight: 600; /* Texto semi-negrita */
-    flex-grow: 1; /* Permite que el enlace ocupe el espacio disponible */
-    padding: 0; /* Reinicia padding del botón (para que no afecte aquí) */
-    background: none; /* Reinicia background del botón */
-    box-shadow: none; /* Reinicia sombra del botón */
-    transform: none; /* Reinicia transform del botón */
+.resource-item ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 15px;
 }
 
-#recursos-content ul li a:hover {
-    text-decoration: underline; /* Subraya al pasar el ratón */
-    color: #1b5e20; /* Color más oscuro al pasar el ratón */
-    background: none; /* Mantener sin fondo */
-    transform: none; /* Mantener sin transform */
+.resource-item ul li {
+    margin-bottom: 10px;
+}
+
+.resource-item ul li a {
+    background-color: var(--prussian-blue); /* Enlaces de lista en azul de Prusia */
+}
+
+.resource-item ul li a:hover {
+    background-color: #00223A; /* Azul más oscuro al pasar el ratón */
 }
 
 
-/* Estilos para la sección de chat */
+/* --- Estilos de la Sección de Chat --- */
 #chat-box {
-    border: 1px solid #ccc; /* Borde del cuadro de chat */
-    height: 300px; /* Altura fija */
-    overflow-y: scroll; /* Permite desplazamiento vertical si el contenido es mucho */
-    padding: 10px; /* Relleno interno */
-    margin-bottom: 10px; /* Margen inferior */
-    background-color: #f9f9f9; /* Fondo claro */
-    border-radius: 5px; /* Bordes redondeados */
+    border: 1px solid #ccc;
+    height: 300px;
+    overflow-y: scroll;
+    padding: 15px;
+    margin-bottom: 20px;
+    background-color: var(--white); /* Fondo blanco para el área de chat */
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.05); /* Sombra interna sutil */
 }
+
+.message-item {
+    padding: 8px 12px;
+    border-radius: 15px;
+    max-width: 70%;
+    word-wrap: break-word;
+    color: var(--black); /* Texto de mensaje negro oscuro */
+}
+
+.message-item.sent {
+    background-color: #dcf8c6; /* Mantengo un verde claro para mensajes enviados, puede ser dorado claro si quieres */
+    align-self: flex-end;
+}
+
+.message-item.received {
+    background-color: var(--medium-gray); /* Gris claro para mensajes recibidos */
+    align-self: flex-start;
+}
+
 
 #chat-input {
-    display: flex; /* Utiliza flexbox para alinear el input y el botón */
+    display: flex;
+    gap: 10px;
 }
 
-#message {
-    flex-grow: 1; /* El input crece para ocupar el espacio restante */
-    padding: 10px; /* Relleno interno */
-    border: 1px solid #ccc; /* Borde */
-    border-radius: 5px; /* Bordes redondeados */
-    margin-right: 10px; /* Margen a la derecha del input */
+#chat-input input[type="text"] {
+    flex-grow: 1;
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    font-size: 1em;
+    background-color: var(--white); /* Fondo blanco para el input */
+    color: var(--black); /* Texto del input negro oscuro */
 }
 
-#sendBtn {
-    background-color: #4CAF50; /* Color de fondo verde */
-    color: white; /* Color del texto */
-    border: none; /* Sin borde */
-    padding: 10px 15px; /* Relleno */
-    border-radius: 5px; /* Bordes redondeados */
-    cursor: pointer; /* Cambia el cursor a una mano */
-    transition: background-color 0.3s ease; /* Transición suave al pasar el ratón */
-}
-
-#sendBtn:hover {
-    background-color: #45a049; /* Tono de verde más oscuro al pasar el ratón */
-}
-
-/* Estilos para el pie de página */
-footer {
-    background-color: #333; /* Fondo oscuro */
-    color: white; /* Color del texto */
-    text-align: center; /* Centra el texto */
-    padding: 1rem 0; /* Relleno superior e inferior */
-    margin-top: 30px; /* Margen superior para separarlo del contenido */
-}
-
-/* ----------------------------- */
-/* Estilos para los Modales (ventanas emergentes) */
-/* ----------------------------- */
-.modal {
-    display: none; /* Oculto por defecto; JavaScript lo cambia a 'flex' para mostrarlo */
-    position: fixed; /* Se mantiene fijo en la pantalla */
-    z-index: 1002; /* CAMBIO: Asegura que esté por encima de la navegación fija (que es 1001) */
-    left: 0;
-    top: 0;
-    width: 100%; /* Ocupa todo el ancho */
-    height: 100%; /* Ocupa toda la altura */
-    overflow: auto; /* Permite desplazamiento si el contenido es muy grande */
-    background-color: rgba(0,0,0,0.7); /* Fondo semi-transparente oscuro */
-    display: flex; /* Utiliza flexbox para centrar el contenido del modal */
-    justify-content: center; /* Centra horizontalmente */
-    align-items: center; /* Centra verticalmente */
-}
-
-.modal-content {
-    background-color: #fefefe; /* Fondo blanco para el contenido del modal */
-    margin: auto; /* Ayuda al centrado */
-    padding: 20px; /* Relleno interno */
-    border: 1px solid #888; /* Borde sutil */
-    width: 80%; /* Ancho del contenido del modal */
-    max-width: 900px; /* Ancho máximo para pantallas grandes */
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19); /* Sombra para dar profundidad */
-    animation-name: animatetop; /* Aplica una animación al aparecer */
-    animation-duration: 0.4s; /* Duración de la animación */
-    position: relative; /* Necesario para posicionar el botón de cerrar de forma absoluta */
-}
-
-/* Estilos específicos para el contenido del modal de visualización de imágenes */
-.modal.image-viewer-modal .modal-content {
-    max-width: 90%; /* Más ancho para ver imágenes grandes */
-    width: auto; /* Ancho automático para adaptarse a la imagen */
-    background: none; /* Fondo transparente para que solo se vea la imagen */
-    box-shadow: none; /* Sin sombra en el modal de imagen */
-    padding: 0; /* Sin padding en el modal de imagen */
-}
-
-.modal.image-viewer-modal .modal-content img {
-    max-width: 100%; /* Asegura que la imagen no exceda el ancho del modal */
-    max-height: 80vh; /* Asegura que la imagen no exceda la altura del viewport */
-    display: block; /* Asegura que la imagen sea un bloque */
-    margin: auto; /* Centra la imagen */
-    border-radius: 8px; /* Bordes redondeados para la imagen grande */
-    box-shadow: 0 5px 15px rgba(0,0,0,0.5); /* Sombra para la imagen ampliada */
-}
-
-/* Botón para cerrar el modal (general) */
-.close-button {
-    color: #aaa; /* Color del ícono 'x' */
-    /* float: right;  Eliminado, ya que position: absolute es más preciso */
-    font-size: 28px; /* Tamaño del ícono */
-    font-weight: bold; /* Negrita */
-    position: absolute; /* Posiciona de forma absoluta respecto a .modal-content */
-    top: 10px; /* Distancia desde la parte superior */
-    right: 20px; /* Distancia desde la derecha */
-    cursor: pointer; /* Cambia el cursor a una mano */
-    /* Asegura que esté por encima del contenido del modal */
-    z-index: 10;
-    background-color: rgba(255, 255, 255, 0.8); /* Fondo semi-transparente para la 'x' */
-    border-radius: 50%; /* Circular */
-    width: 30px; /* Ancho del círculo */
-    height: 30px; /* Alto del círculo */
-    display: flex; /* Para centrar la 'x' dentro del círculo */
-    justify-content: center;
-    align-items: center;
-    line-height: 1; /* Ajusta la altura de línea para centrar el texto */
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Sombra para el botón */
-}
-
-/* Estilos del botón de cerrar modal para el visor de imágenes */
-.modal.image-viewer-modal .close-button {
-    color: white; /* Botón de cerrar blanco sobre fondo oscuro/imagen */
-    text-shadow: 0 0 5px black; /* Sombra de texto para visibilidad en fondo de imagen */
-    font-size: 40px; /* Más grande para que sea fácil de ver y clickear */
-    top: 0px; /* Ajuste de posición */
-    right: 15px; /* Ajuste de posición */
-    background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro semi-transparente */
-    box-shadow: 0 0 10px rgba(0,0,0,0.5); /* Sombra más fuerte */
-}
-
-.close-button:hover,
-.close-button:focus {
-    color: black; /* Color más oscuro al pasar el ratón o enfocar (para modales de recursos) */
-    text-decoration: none; /* Elimina subrayado */
+#chat-input button {
+    background-color: var(--dark-gold); /* Botón de enviar chat en dorado oscuro */
+    color: var(--white);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
     cursor: pointer;
-    background-color: rgba(255, 255, 255, 1); /* Fondo blanco sólido al pasar el ratón */
+    font-size: 1em;
+    transition: background-color 0.3s ease;
 }
 
-/* Hover específico para el botón de cerrar del visor de imágenes */
-.modal.image-viewer-modal .close-button:hover,
-.modal.image-viewer-modal .close-button:focus {
-    color: white; /* Mantiene el color blanco */
-    background-color: rgba(0, 0, 0, 0.7); /* Fondo más oscuro */
+#chat-input button:hover {
+    background-color: #B8860B; /* Dorado un poco más oscuro al pasar el ratón */
 }
 
-
-/* Animación de entrada del modal (aparece desde arriba) */
-@keyframes animatetop {
-    from {top: -300px; opacity: 0} /* Inicia 300px por encima y transparente */
-    to {top: 0; opacity: 1} /* Termina en su posición y completamente visible */
+/* --- Estilos del Footer --- */
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: var(--prussian-blue); /* Fondo azul de Prusia */
+    color: var(--white); /* Texto blanco */
+    margin-top: 30px;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
 }
 
-/* Estilos para el iframe dentro del modal (usado para Plan de Evangelización) */
-.modal-content iframe {
-    width: 100%; /* Ancho completo dentro del modal */
-    height: 500px; /* Altura fija */
-    display: block; /* Asegura que ocupe su propio espacio */
+/* --- Responsive Design (Ejemplo Básico) --- */
+@media (max-width: 768px) {
+    .fixed-nav a {
+        padding: 8px 10px;
+        margin: 0 5px;
+        font-size: 0.9em;
+    }
+
+    .content-section h2 {
+        font-size: 2em;
+    }
+
+    .gallery-item.span-2-col {
+        grid-column: span 1;
+    }
+}
+
+@media (max-width: 480px) {
+    .fixed-nav a {
+        display: block;
+        margin: 5px auto;
+    }
+    main {
+        padding: 10px;
+    }
 }
