@@ -1,0 +1,25 @@
+{
+  "name": "web-ccrlr",
+  "version": "1.0.0",
+  "description": "",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CentroCristianodeRestauracionLosRios/CCRLR.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CentroCristianodeRestauracionLosRios/CCRLR/issues"
+  },
+  "homepage": "https://github.com/CentroCristianodeRestauracionLosRios/CCRLR#readme",
+  "devDependencies": {
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.11"
+  }
+}
