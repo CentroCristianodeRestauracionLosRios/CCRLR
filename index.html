@@ -6,18 +6,22 @@
     <title>Espacio de Interacción: Conoce y Comparte</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
+    
     <script>
-        // Tu configuración de Firebase SDK aquí
+        // ¡IMPORTANTE! Reemplaza con tu propia configuración de Firebase.
+        // Puedes encontrarla en la Consola de Firebase > Configuración del proyecto > Tus apps.
         const firebaseConfig = {
-            apiKey: "TU_API_KEY",
-            authDomain: "TU_AUTH_DOMAIN",
-            projectId: "TU_PROJECT_ID",
-            storageBucket: "TU_STORAGE_BUCKET",
-            messagingSenderId: "TU_MESSAGING_SENDER_ID",
-            appId: "TU_APP_ID",
-            databaseURL: "TU_DATABASE_URL" // Asegúrate de que esta URL esté presente
+            apiKey: "TU_API_KEY", // Ejemplo: "AIzaSyC0pQxxxxxxxxxxxxxxxxxxxxxxxxx"
+            authDomain: "TU_AUTH_DOMAIN", // Ejemplo: "tu-proyecto.firebaseapp.com"
+            projectId: "TU_PROJECT_ID", // Ejemplo: "tu-proyecto"
+            storageBucket: "TU_STORAGE_BUCKET", // Ejemplo: "tu-proyecto.appspot.com"
+            messagingSenderId: "TU_MESSAGING_SENDER_ID", // Ejemplo: "1234567890"
+            appId: "TU_APP_ID", // Ejemplo: "1:1234567890:web:abcdef1234567890"
+            databaseURL: "TU_DATABASE_URL" // ¡MUY IMPORTANTE! Ejemplo: "https://tu-proyecto-default-rtdb.firebaseio.com"
         };
     </script>
 </head>
@@ -97,10 +101,10 @@
             <h2>Chat en Vivo</h2>
             <div id="auth-status">
                 <span id="user-info">No has iniciado sesión.</span>
-                <button id="login-button" style="display: none;">Iniciar sesión con Google</button>
-                <button id="logout-button" style="display: none;">Cerrar sesión</button>
+                <button id="login-button" class="auth-button" style="display: none;">Iniciar sesión con Google</button>
+                <button id="logout-button" class="auth-button" style="display: none;">Cerrar sesión</button>
             </div>
-            <p>Inicia sesión para participar en el chat.</p>
+            <p class="chat-instruction">Inicia sesión para participar en el chat o usa un nombre de invitado.</p>
 
             <div id="chat-container">
                 <div id="chat-box">

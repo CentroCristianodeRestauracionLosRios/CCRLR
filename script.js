@@ -1,19 +1,19 @@
 // Importa las funciones necesarias de Firebase SDK
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
 import { getDatabase, ref, push, onChildAdded, serverTimestamp, remove, child, set, onChildRemoved, update, onChildChanged, get } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
-import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"; // NUEVO: Importa auth
+import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
 
 // Accede a la configuración de Firebase definida globalmente en index.html
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
-const auth = getAuth(app); // NUEVO: Inicializa Auth
+const auth = getAuth(app);
 const messagesRef = ref(database, 'messages');
 const bannedUsersRef = ref(database, 'bannedUsers');
-const adminsRef = ref(database, 'admins'); // NUEVO: Referencia a la rama de administradores
+const adminsRef = ref(database, 'admins'); // Referencia a la rama de administradores
 
 // --- Variables de Estado Globales ---
-let userId = null; // userId será el UID de Firebase Auth
-let userName = null; // Nombre de usuario de Firebase Auth o el elegido si no hay login
+let userId = null; // UID de Firebase Auth o ID de invitado
+let userName = null; // Nombre de usuario de Firebase Auth o el elegido como invitado
 let isAdmin = false; // Flag para saber si el usuario actual es admin
 let bannedUserIds = new Set(); // Para almacenar los IDs de usuarios baneados en memoria
 
@@ -21,21 +21,20 @@ let bannedUserIds = new Set(); // Para almacenar los IDs de usuarios baneados en
 const chatBox = document.getElementById('chat-box');
 const messageInput = document.getElementById('message');
 const sendBtn = document.getElementById('sendBtn');
-const loginButton = document.getElementById('login-button'); // NUEVO
-const logoutButton = document.getElementById('logout-button'); // NUEVO
-const userInfoSpan = document.getElementById('user-info');     // NUEVO
+const loginButton = document.getElementById('login-button');
+const logoutButton = document.getElementById('logout-button');
+const userInfoSpan = document.getElementById('user-info');
 
 document.addEventListener('DOMContentLoaded', async () => {
-    // --- Lógica de Autenticación ---
+    // --- Lógica de Autenticación y Estado ---
     loginButton.addEventListener('click', signInWithGoogle);
     logoutButton.addEventListener('click', signOutUser);
 
     onAuthStateChanged(auth, async (user) => {
         if (user) {
-            // Usuario ha iniciado sesión
+            // Usuario ha iniciado sesión con Firebase Auth
             userId = user.uid;
             userName = user.displayName || user.email.split('@')[0]; // Usa el nombre de Google o parte del email
-            console.log("Usuario logeado:", userName, "UID:", userId);
 
             userInfoSpan.textContent = `Has iniciado sesión como: ${userName}`;
             loginButton.style.display = 'none';
@@ -44,22 +43,22 @@ document.addEventListener('DOMContentLoaded', async () => {
             sendBtn.disabled = false;
 
             // Comprobar si el usuario es administrador
-            const adminSnapshot = await get(child(adminsRef, userId));
-            isAdmin = adminSnapshot.exists();
-            console.log("¿Es administrador?", isAdmin);
+            try {
+                const adminSnapshot = await get(child(adminsRef, userId));
+                isAdmin = adminSnapshot.exists();
+                console.log("Usuario logeado:", userName, "UID:", userId, "¿Es administrador?", isAdmin);
+            } catch (error) {
+                console.error("Error al verificar si es admin:", error);
+                isAdmin = false;
+            }
 
-            // Si el admin no tiene un nombre configurado por Google, puede establecer uno
-            // Opcional: Si quieres mantener el flujo del modal para todos, incluso si están logueados
-            // if (!userName || userName.includes('user_')) { // Por si el userName proviene de un user_ antiguo
-            //     await promptForUserName();
-            // }
+            // Si estaba como invitado, limpia el sessionStorage de invitado
+            sessionStorage.removeItem('chatUserNameGuest');
+            sessionStorage.removeItem('chatUserId');
 
         } else {
             // Usuario ha cerrado sesión o no ha iniciado sesión
-            userId = null;
-            userName = null;
-            isAdmin = false;
-            console.log("No hay usuario logeado.");
+            isAdmin = false; // Reinicia el estado de admin
 
             userInfoSpan.textContent = 'No has iniciado sesión.';
             loginButton.style.display = 'inline-block';
@@ -67,26 +66,25 @@ document.addEventListener('DOMContentLoaded', async () => {
             messageInput.disabled = true;
             sendBtn.disabled = true;
 
-            // Limpiar el chat si el usuario cierra sesión (opcional)
+            // Limpiar el chat si el usuario cierra sesión explícitamente (opcional)
             chatBox.innerHTML = '';
-            appendMessage(null, "Por favor, inicia sesión para participar en el chat.", 'system', 'Sistema');
+            appendMessage(null, "Por favor, inicia sesión o elige un nombre de invitado para participar en el chat.", 'system', 'Sistema');
 
-            // NUEVO: Pide nombre de usuario solo si no está logeado y no tiene un nombre persistente de antes
-            // Si el usuario no ha iniciado sesión, ofrecerle elegir un nombre (como invitado)
-            // Solo si no ha elegido uno ya en esta sesión.
-            if (!sessionStorage.getItem('chatUserNameGuest')) {
-                 await promptForUserNameGuest();
-            } else {
-                userName = sessionStorage.getItem('chatUserNameGuest');
-            }
-             userId = sessionStorage.getItem('chatUserId'); // Asegura que el userId persista para invitados
+            // Lógica para usuarios invitados: si no está logeado, se le pide un nombre de invitado
+            // y se genera un userId para la sesión.
+            await promptForUserNameGuest();
 
-             // Si el usuario es invitado, aún puede enviar mensajes (si no está baneado)
-             // Habilita el chat para invitados si la función promptForUserNameGuest lo permite.
-             if (userName && !bannedUserIds.has(userId)) {
+            // Si hay un userName (ya sea de login o de invitado) y no está baneado, habilita el chat
+            if (userName && !bannedUserIds.has(userId)) {
                 messageInput.disabled = false;
                 sendBtn.disabled = false;
-             }
+            } else {
+                messageInput.disabled = true;
+                sendBtn.disabled = true;
+                if (bannedUserIds.has(userId)) {
+                    appendMessage(null, "Has sido bloqueado del chat. No puedes enviar mensajes.", 'system', 'Sistema');
+                }
+            }
         }
     });
 
@@ -95,7 +93,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const provider = new GoogleAuthProvider();
         try {
             await signInWithPopup(auth, provider);
-            // El onAuthStateChanged se encargará de actualizar la UI
+            // onAuthStateChanged se encargará de actualizar la UI
         } catch (error) {
             console.error("Error al iniciar sesión con Google:", error);
             alert("Error al iniciar sesión: " + error.message);
@@ -105,10 +103,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     async function signOutUser() {
         try {
             await signOut(auth);
-            // El onAuthStateChanged se encargará de actualizar la UI
+            // onAuthStateChanged se encargará de actualizar la UI
             // Limpia el nombre de invitado al cerrar sesión explícitamente
             sessionStorage.removeItem('chatUserNameGuest');
-            sessionStorage.removeItem('chatUserId'); // Reinicia el ID de invitado también
+            sessionStorage.removeItem('chatUserId');
             userId = null;
             userName = null;
         } catch (error) {
@@ -117,187 +115,23 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    // --- Resto de la lógica del chat (con adaptaciones) ---
-    // Escuchar cambios en la lista de usuarios baneados en Firebase
-    onChildAdded(bannedUsersRef, (snapshot) => {
-        bannedUserIds.add(snapshot.key);
-        console.log(`Usuario baneado añadido: ${snapshot.key}`);
-    });
-
-    onChildRemoved(bannedUsersRef, (snapshot) => {
-        bannedUserIds.delete(snapshot.key);
-        console.log(`Usuario desbaneado: ${snapshot.key}`);
-    });
-
-    // Lógica para el modal de imagen de la galería (sin cambios)
-    const imageModal = document.getElementById('imageModal');
-    const modalImg = document.getElementById('img01');
-    const closeButton = document.querySelector('.close-button');
-
-    const galleryItems = document.querySelectorAll('.image-gallery .gallery-item');
-
-    galleryItems.forEach(item => {
-        item.addEventListener('click', () => {
-            imageModal.style.display = 'block';
-            modalImg.src = item.getAttribute('data-full-src');
-        });
-    });
-
-    closeButton.addEventListener('click', () => {
-        imageModal.style.display = 'none';
-    });
-
-    imageModal.addEventListener('click', (event) => {
-        if (event.target === imageModal) {
-            imageModal.style.display = 'none';
-        }
-    });
-
-    document.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape' && imageModal.style.display === 'block') {
-            imageModal.style.display = 'none';
-        }
-    });
-
-    if (sendBtn && messageInput && chatBox && app && database && messagesRef) {
-        // --- 1. Escuchar nuevos mensajes ---
-        onChildAdded(messagesRef, (snapshot) => {
-            const message = snapshot.val();
-            // Pasa el senderName que viene en el mensaje, o usa un default si no existe
-            appendMessage(snapshot.key, message.text, message.senderId, message.senderName || "Invitado"); 
-        });
-
-        // --- 2. Escuchar cambios en mensajes existentes (para ediciones) ---
-        onChildChanged(messagesRef, (snapshot) => {
-            const messageKey = snapshot.key;
-            const updatedMessage = snapshot.val();
-            const messageElement = document.querySelector(`.message-item[data-key="${messageKey}"]`);
-            if (messageElement) {
-                const textContentElement = messageElement.querySelector('.message-text');
-                if (textContentElement) {
-                    textContentElement.textContent = updatedMessage.text;
-                }
-                messageElement.classList.remove('editing');
-                // Solo mostrar botón de editar si es el mensaje del usuario actual
-                if (updatedMessage.senderId === userId && !messageElement.querySelector('.edit-button')) {
-                    const editButton = document.createElement('button');
-                    editButton.textContent = '✏️';
-                    editButton.classList.add('edit-button');
-                    editButton.title = 'Editar mensaje';
-                    editButton.addEventListener('click', () => startEditMessage(messageKey, textContentElement, messageElement));
-                    messageElement.appendChild(editButton);
-                }
-            }
-        });
-
-        sendBtn.addEventListener('click', () => {
-            const messageText = messageInput.value.trim();
-
-            if (bannedUserIds.has(userId)) {
-                alert("No puedes enviar mensajes porque has sido bloqueado del chat.");
-                messageInput.value = '';
-                return;
-            }
-
-            // --- Procesar comandos (Solo administradores y si hay userId) ---
-            if (messageText.startsWith('/ban ')) {
-                if (isAdmin && userId) { // Solo si es admin y está logeado
-                    const targetInfo = messageText.substring(5).trim();
-                    if (targetInfo) {
-                        set(child(bannedUsersRef, targetInfo), true)
-                            .then(() => { appendMessage(null, `Comando: El usuario ${targetInfo} ha sido baneado.`, 'system', 'Sistema'); })
-                            .catch(error => { console.error("Error al banear usuario:", error); appendMessage(null, "Error al banear al usuario.", 'system', 'Sistema'); });
-                    } else { appendMessage(null, "Uso: /ban [ID_de_usuario]", 'system', 'Sistema'); }
-                } else { appendMessage(null, "No tienes permisos para usar este comando.", 'system', 'Sistema'); }
-                messageInput.value = '';
-                return;
-            }
-
-            if (messageText.startsWith('/unban ')) {
-                if (isAdmin && userId) { // Solo si es admin y está logeado
-                    const targetUserId = messageText.substring(7).trim();
-                    if (targetUserId) {
-                        remove(child(bannedUsersRef, targetUserId))
-                            .then(() => { appendMessage(null, `Comando: El usuario ${targetUserId} ha sido desbaneado.`, 'system', 'Sistema'); })
-                            .catch(error => { console.error("Error al desbanear usuario:", error); appendMessage(null, "Error al desbanear al usuario.", 'system', 'Sistema'); });
-                    } else { appendMessage(null, "Uso: /unban [ID_de_usuario]", 'system', 'Sistema'); }
-                } else { appendMessage(null, "No tienes permisos para usar este comando.", 'system', 'Sistema'); }
-                messageInput.value = '';
-                return;
-            }
-
-            if (messageText.startsWith('/clear')) {
-                if (isAdmin && userId) { // Solo si es admin y está logeado
-                    if (confirm("¿Estás seguro de que quieres borrar TODOS los mensajes del chat? Esta acción es irreversible.")) {
-                        remove(messagesRef)
-                            .then(() => {
-                                chatBox.innerHTML = '';
-                                appendMessage(null, "El chat ha sido limpiado por un administrador.", 'system', 'Sistema');
-                                console.log("Chat limpiado exitosamente en Firebase.");
-                            })
-                            .catch(error => { console.error("Error al limpiar el chat:", error); appendMessage(null, "Error al intentar limpiar el chat.", 'system', 'Sistema'); });
-                    }
-                } else { appendMessage(null, "No tienes permisos para usar este comando.", 'system', 'Sistema'); }
-                messageInput.value = '';
-                return;
-            }
-            
-            // --- Comando para cambiar el nombre de usuario (accesible para todos, pero solo para su propio nombre) ---
-            if (messageText.startsWith('/name ')) {
-                const newName = messageText.substring(6).trim();
-                if (newName.length > 0 && newName.length <= 10) {
-                    // Si el usuario está logeado, el nombre de firebaseAuth tiene prioridad
-                    // Si no está logeado, puede cambiar su nombre de invitado
-                    if (auth.currentUser) {
-                        alert("Para cambiar tu nombre de usuario logeado, debes cambiarlo en tu perfil de Google.");
-                        // Opcional: Puedes permitir cambiar el displayName de Firebase Auth, pero es más complejo.
-                        // updateProfile(auth.currentUser, { displayName: newName });
-                    } else {
-                        // Usuario invitado
-                        userName = newName;
-                        sessionStorage.setItem('chatUserNameGuest', userName);
-                        appendMessage(null, `Has cambiado tu nombre de invitado a: ${userName}`, 'system', 'Sistema');
-                    }
-                } else {
-                    appendMessage(null, "El nombre debe tener entre 1 y 10 caracteres.", 'system', 'Sistema');
-                }
-                messageInput.value = '';
-                return;
-            }
-
-            // --- 3. Si no es un comando y el mensaje no está vacío, enviarlo como mensaje normal ---
-            // Solo permitir enviar mensajes si hay un userName asignado (logeado o invitado)
-            if (messageText !== '' && userName) {
-                push(messagesRef, {
-                    text: messageText,
-                    senderId: userId, // UID de Firebase Auth o ID de invitado
-                    senderName: userName, // Nombre de Google o nombre de invitado
-                    timestamp: serverTimestamp()
-                });
-                messageInput.value = '';
-            }
-        });
-
-        messageInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                sendBtn.click();
-            }
-        });
-    } else {
-        console.error("Elementos del chat o Firebase no inicializados correctamente. Verifica tu index.html y script.js.");
-    }
-
-    // --- NUEVO: Función para pedir el nombre de usuario para invitados (solo si no hay login) ---
+    // --- Lógica para usuarios invitados si no hay login ---
     async function promptForUserNameGuest() {
         return new Promise(resolve => {
+            // Recuperar el nombre de invitado y UID si ya existen en sessionStorage
             const currentGuestName = sessionStorage.getItem('chatUserNameGuest');
-            if (currentGuestName) {
+            const currentGuestId = sessionStorage.getItem('chatUserId');
+
+            if (currentGuestName && currentGuestId) {
                 userName = currentGuestName;
-                console.log("Nombre de invitado recuperado:", userName);
+                userId = currentGuestId;
+                console.log("Nombre de invitado recuperado:", userName, "ID de invitado:", userId);
+                userInfoSpan.textContent = `Estás como invitado: ${userName}`;
                 resolve();
                 return;
             }
 
+            // Si no hay nombre de invitado, mostrar el modal
             const overlay = document.createElement('div');
             overlay.style.cssText = `
                 position: fixed;
@@ -366,9 +200,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                         userId = sessionStorage.getItem('chatUserId');
                     }
                     console.log("Nombre de invitado asignado:", userName, "ID de invitado:", userId);
+                    userInfoSpan.textContent = `Estás como invitado: ${userName}`;
                     document.body.removeChild(overlay);
-                    messageInput.disabled = false;
-                    sendBtn.disabled = false;
                     resolve();
                 } else {
                     errorMsg.textContent = 'El nombre debe tener entre 1 y 10 caracteres.';
@@ -392,42 +225,230 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
+    // --- Escuchar cambios en la lista de usuarios baneados en Firebase ---
+    onChildAdded(bannedUsersRef, (snapshot) => {
+        bannedUserIds.add(snapshot.key);
+        console.log(`Usuario baneado añadido: ${snapshot.key}`);
+        // Si el usuario actual es baneado, deshabilitar el chat
+        if (userId && bannedUserIds.has(userId)) {
+            messageInput.disabled = true;
+            sendBtn.disabled = true;
+            appendMessage(null, "Has sido bloqueado del chat.", 'system', 'Sistema');
+        }
+    });
 
-    // --- MODIFICADO: Función para añadir mensajes al chat box ---
+    onChildRemoved(bannedUsersRef, (snapshot) => {
+        bannedUserIds.delete(snapshot.key);
+        console.log(`Usuario desbaneado: ${snapshot.key}`);
+        // Si el usuario actual es desbaneado, y está logeado o es invitado, re-habilitar chat
+        if (userId && !bannedUserIds.has(userId) && (auth.currentUser || userName)) {
+            messageInput.disabled = false;
+            sendBtn.disabled = false;
+            appendMessage(null, "Has sido desbaneado y puedes volver a chatear.", 'system', 'Sistema');
+        }
+    });
+
+    // --- Lógica para el modal de imagen de la galería ---
+    const imageModal = document.getElementById('imageModal');
+    const modalImg = document.getElementById('img01');
+    const closeButton = document.querySelector('.close-button');
+
+    const galleryItems = document.querySelectorAll('.image-gallery .gallery-item');
+
+    galleryItems.forEach(item => {
+        item.addEventListener('click', () => {
+            imageModal.style.display = 'block';
+            modalImg.src = item.getAttribute('data-full-src');
+        });
+    });
+
+    closeButton.addEventListener('click', () => {
+        imageModal.style.display = 'none';
+    });
+
+    imageModal.addEventListener('click', (event) => {
+        if (event.target === imageModal) {
+            imageModal.style.display = 'none';
+        }
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && imageModal.style.display === 'block') {
+            imageModal.style.display = 'none';
+        }
+    });
+
+    if (sendBtn && messageInput && chatBox && app && database && messagesRef) {
+        // --- 1. Escuchar nuevos mensajes ---
+        onChildAdded(messagesRef, (snapshot) => {
+            const message = snapshot.val();
+            // Pasa el senderName que viene en el mensaje, o usa un default si no existe
+            appendMessage(snapshot.key, message.text, message.senderId, message.senderName || "Invitado");
+        });
+
+        // --- 2. Escuchar cambios en mensajes existentes (para ediciones) ---
+        onChildChanged(messagesRef, (snapshot) => {
+            const messageKey = snapshot.key;
+            const updatedMessage = snapshot.val();
+            const messageElement = document.querySelector(`.message-item[data-key="${messageKey}"]`);
+            if (messageElement) {
+                const textContentElement = messageElement.querySelector('.message-text');
+                if (textContentElement) {
+                    textContentElement.textContent = updatedMessage.text;
+                }
+                // Si el mensaje fue editado por el propio usuario, restaurar el botón de edición
+                if (updatedMessage.senderId === userId && !messageElement.querySelector('.edit-button')) {
+                    const editButton = document.createElement('button');
+                    editButton.textContent = '✏️';
+                    editButton.classList.add('edit-button');
+                    editButton.title = 'Editar mensaje';
+                    editButton.addEventListener('click', () => startEditMessage(messageKey, textContentElement, messageElement));
+                    messageElement.appendChild(editButton);
+                }
+                messageElement.classList.remove('editing');
+                messageElement.style.paddingBottom = (messageElement.classList.contains('sent') || messageElement.classList.contains('received')) ? '25px' : '8px';
+                const messageHeader = messageElement.querySelector('.message-header');
+                if (messageHeader) messageHeader.style.display = 'flex';
+            }
+        });
+
+        sendBtn.addEventListener('click', () => {
+            const messageText = messageInput.value.trim();
+
+            if (!userId || !userName) {
+                alert("Debes iniciar sesión o elegir un nombre de invitado para enviar mensajes.");
+                return;
+            }
+
+            if (bannedUserIds.has(userId)) {
+                alert("No puedes enviar mensajes porque has sido bloqueado del chat.");
+                messageInput.value = '';
+                return;
+            }
+
+            // --- Procesar comandos (Solo administradores para /ban, /unban, /clear) ---
+            if (messageText.startsWith('/ban ')) {
+                if (isAdmin) { // Solo si es admin y está logeado
+                    const targetInfo = messageText.substring(5).trim();
+                    if (targetInfo) {
+                        set(child(bannedUsersRef, targetInfo), true)
+                            .then(() => { appendMessage(null, `Comando: El usuario ${targetInfo} ha sido baneado.`, 'system', 'Sistema'); })
+                            .catch(error => { console.error("Error al banear usuario:", error); appendMessage(null, "Error al banear al usuario.", 'system', 'Sistema'); });
+                    } else { appendMessage(null, "Uso: /ban [ID_de_usuario]", 'system', 'Sistema'); }
+                } else { appendMessage(null, "No tienes permisos para usar este comando.", 'system', 'Sistema'); }
+                messageInput.value = '';
+                return;
+            }
+
+            if (messageText.startsWith('/unban ')) {
+                if (isAdmin) { // Solo si es admin y está logeado
+                    const targetUserId = messageText.substring(7).trim();
+                    if (targetUserId) {
+                        remove(child(bannedUsersRef, targetUserId))
+                            .then(() => { appendMessage(null, `Comando: El usuario ${targetUserId} ha sido desbaneado.`, 'system', 'Sistema'); })
+                            .catch(error => { console.error("Error al desbanear usuario:", error); appendMessage(null, "Error al desbanear al usuario.", 'system', 'Sistema'); });
+                    } else { appendMessage(null, "Uso: /unban [ID_de_usuario]", 'system', 'Sistema'); }
+                } else { appendMessage(null, "No tienes permisos para usar este comando.", 'system', 'Sistema'); }
+                messageInput.value = '';
+                return;
+            }
+
+            if (messageText.startsWith('/clear')) {
+                if (isAdmin) { // Solo si es admin y está logeado
+                    if (confirm("¿Estás seguro de que quieres borrar TODOS los mensajes del chat? Esta acción es irreversible.")) {
+                        remove(messagesRef)
+                            .then(() => {
+                                chatBox.innerHTML = '';
+                                appendMessage(null, "El chat ha sido limpiado por un administrador.", 'system', 'Sistema');
+                                console.log("Chat limpiado exitosamente en Firebase.");
+                            })
+                            .catch(error => { console.error("Error al limpiar el chat:", error); appendMessage(null, "Error al intentar limpiar el chat.", 'system', 'Sistema'); });
+                    }
+                } else { appendMessage(null, "No tienes permisos para usar este comando.", 'system', 'Sistema'); }
+                messageInput.value = '';
+                return;
+            }
+
+            // --- Comando para cambiar el nombre de usuario (accesible para todos, pero solo para su propio nombre) ---
+            if (messageText.startsWith('/name ')) {
+                const newName = messageText.substring(6).trim();
+                if (newName.length > 0 && newName.length <= 10) {
+                    if (auth.currentUser) {
+                        alert("Para cambiar tu nombre de usuario logeado, se recomienda cambiarlo desde tu perfil de Google.");
+                        // Opcional: Podrías añadir aquí lógica para actualizar el displayName de Firebase Auth,
+                        // pero es más complejo y generalmente se prefiere que el nombre provenga de Google.
+                    } else {
+                        // Usuario invitado
+                        userName = newName;
+                        sessionStorage.setItem('chatUserNameGuest', userName);
+                        userInfoSpan.textContent = `Estás como invitado: ${userName}`;
+                        appendMessage(null, `Has cambiado tu nombre de invitado a: ${userName}`, 'system', 'Sistema');
+                    }
+                } else {
+                    appendMessage(null, "El nombre debe tener entre 1 y 10 caracteres.", 'system', 'Sistema');
+                }
+                messageInput.value = '';
+                return;
+            }
+
+            // --- 3. Si no es un comando y el mensaje no está vacío, enviarlo como mensaje normal ---
+            if (messageText !== '' && userName && userId) {
+                push(messagesRef, {
+                    text: messageText,
+                    senderId: userId, // UID de Firebase Auth o ID de invitado
+                    senderName: userName, // Nombre de Google o nombre de invitado
+                    timestamp: serverTimestamp()
+                });
+                messageInput.value = '';
+            }
+        });
+
+        messageInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendBtn.click();
+            }
+        });
+    } else {
+        console.error("Elementos del chat o Firebase no inicializados correctamente. Verifica tu index.html y script.js.");
+    }
+
+
+    // --- Función para añadir mensajes al chat box ---
     function appendMessage(messageKey, text, senderId, senderName) {
         const messageElement = document.createElement('div');
         messageElement.classList.add('message-item');
-        
+
         if (messageKey) {
             messageElement.setAttribute('data-key', messageKey);
         }
+        // Guardar el senderId para posibles usos futuros (ej. editar, banear)
+        messageElement.setAttribute('data-sender-id', senderId);
 
         const textContentElement = document.createElement('span');
         textContentElement.classList.add('message-text');
         textContentElement.textContent = text;
-        
+
         // Determinar el nombre a mostrar
         let displayName = senderName; // Por defecto usa el senderName del mensaje
-        let isMyMessage = (auth.currentUser && senderId === auth.currentUser.uid) || (!auth.currentUser && senderId === userId);
+        let isMyMessage = (auth.currentUser && senderId === auth.currentUser.uid) || (!auth.currentUser && senderId === userId); // Verifica si es mi mensaje (logueado o invitado)
 
-        if (isMyMessage) {
-            displayName = `Tú (${userName})`; // Tu nombre autenticado o de invitado
+        if (isMyMessage && userId) { // Si es mi mensaje y tengo un userId válido
+            displayName = `Tú (${userName})`;
         } else if (senderId === 'system') {
             displayName = 'Sistema';
         }
 
-
         // Crear el header del mensaje con el nombre
         const messageHeader = document.createElement('div');
         messageHeader.classList.add('message-header');
-        
+
         const nameSpan = document.createElement('span');
         nameSpan.classList.add('sender-name');
         nameSpan.textContent = displayName;
         messageHeader.appendChild(nameSpan);
 
         // Si es el ADMIN y el mensaje no es del sistema, añade el ID real oculto para copiar
-        if (isAdmin && senderId !== 'system') {
+        if (isAdmin && senderId !== 'system' && senderId !== 'undefined') { // 'undefined' para evitar mostrar ID si no hay
             const adminIdSpan = document.createElement('span');
             adminIdSpan.classList.add('admin-id-info');
             adminIdSpan.textContent = ` (ID: ${senderId})`;
@@ -454,13 +475,14 @@ document.addEventListener('DOMContentLoaded', async () => {
             messageElement.classList.add('sent');
             messageElement.appendChild(textContentElement);
 
+            // Añadir botón de edición si es un mensaje propio
             const editButton = document.createElement('button');
             editButton.textContent = '✏️';
             editButton.classList.add('edit-button');
             editButton.title = 'Editar mensaje';
             editButton.addEventListener('click', () => startEditMessage(messageKey, textContentElement, messageElement));
             messageElement.appendChild(editButton);
-            
+
             messageElement.appendChild(messageHeader);
             messageElement.style.paddingBottom = '25px';
         } else { // Mensaje recibido de otro usuario
@@ -469,20 +491,16 @@ document.addEventListener('DOMContentLoaded', async () => {
             messageElement.appendChild(textContentElement);
             messageElement.style.paddingBottom = '25px';
         }
-        
+
         chatBox.appendChild(messageElement);
         chatBox.scrollTop = chatBox.scrollHeight;
     }
 
-    // --- Funciones de edición (ligeras adaptaciones para el senderId) ---
+    // --- Funciones de edición ---
     function startEditMessage(messageKey, textContentElement, messageElement) {
-        // Asegúrate de que el mensaje a editar es del usuario actual
-        const messageSenderId = messageElement.getAttribute('data-sender-id'); // Necesitarás añadir data-sender-id al message-item
-        // Opcional: Volver a verificar auth.currentUser.uid === messageSenderId
-        // Por ahora, asumimos que el botón de editar solo aparece en los propios mensajes
-        
+        // Solo permitir editar un mensaje a la vez
         if (document.querySelector('.message-item.editing')) {
-            alert('Ya estás editando un mensaje. Por favor, guarda o cancelas antes de editar otro.');
+            alert('Ya estás editando un mensaje. Por favor, guarda o cancela antes de editar otro.');
             return;
         }
 
@@ -502,10 +520,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         cancelButton.classList.add('cancel-button');
         cancelButton.title = 'Cancelar edición';
 
+        // Ocultar elementos existentes y añadir los de edición
         textContentElement.style.display = 'none';
         const editButton = messageElement.querySelector('.edit-button');
         if (editButton) editButton.style.display = 'none';
-        
+
         const messageHeader = messageElement.querySelector('.message-header');
         if (messageHeader) messageHeader.style.display = 'none';
 
@@ -541,18 +560,19 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     function exitEditMode(textContentElement, inputField, saveButton, cancelButton, editButton, messageElement, originalText) {
         textContentElement.textContent = originalText;
-        textContentElement.style.display = 'inline';
+        textContentElement.style.display = 'block'; // Mostrar el texto de nuevo
 
         inputField.remove();
         saveButton.remove();
         cancelButton.remove();
 
-        if (editButton) editButton.style.display = 'inline';
+        if (editButton) editButton.style.display = 'inline'; // Mostrar el botón de edición
         
         const messageHeader = messageElement.querySelector('.message-header');
         if (messageHeader) {
-            messageHeader.style.display = 'flex';
-            messageElement.style.paddingBottom = '25px';
+            messageHeader.style.display = 'flex'; // Mostrar el encabezado
+            // Restaurar padding según si es mensaje enviado/recibido o de sistema
+            messageElement.style.paddingBottom = (messageElement.classList.contains('sent') || messageElement.classList.contains('received')) ? '25px' : '8px';
         } else {
              messageElement.style.paddingBottom = '8px';
         }
@@ -565,6 +585,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         update(messageRefToUpdate, { text: newText })
             .then(() => {
                 console.log("Mensaje actualizado en Firebase:", messageKey);
+                // La función onChildChanged de Firebase Listener se encargará de actualizar el DOM.
+                // No necesitas llamar a exitEditMode aquí, onChildChanged lo maneja.
             })
             .catch(error => {
                 console.error("Error al actualizar mensaje en Firebase:", error);

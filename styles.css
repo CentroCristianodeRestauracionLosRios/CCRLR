@@ -1,103 +1,94 @@
-/* Paleta de Colores Definida */
-:root {
-    --prussian-blue: #003153; /* Azul oscuro y elegante */
-    --dark-gold: #CC9900;    /* Dorado oscuro vibrante */
-    --white: #FFFFFF;
-    --black: #1A1A1A;        /* Negro muy oscuro, casi negro */
-    --light-gray: #f4f4f4;   /* Gris muy claro para fondos generales */
-    --medium-gray: #E0E0E0;  /* Gris claro para mensajes recibidos */
-    --green-accent: #28a745; /* Mantengo un verde para el botón de enviar chat, es opcional */
-}
-
-/* Estilos Generales y Reset Básico */
 body {
     font-family: 'Montserrat', sans-serif;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-    background-color: var(--light-gray); /* Fondo general muy claro */
-    color: var(--black); /* Texto principal negro oscuro */
+    background-color: #f4f4f4;
+    color: #333;
     line-height: 1.6;
 }
 
-/* Estilos de la Cabecera Principal */
 .main-header {
     width: 100%;
+    height: 300px; /* Ajusta la altura según tus necesidades */
     overflow: hidden;
-    background-color: var(--prussian-blue); /* Fondo azul de Prusia */
+    position: relative;
 }
 
 .hero-image {
     width: 100%;
-    height: auto;
-    display: block;
+    height: 100%;
+    object-fit: cover; /* Asegura que la imagen cubra el contenedor */
+    object-position: center; /* Centra la imagen */
 }
 
-/* Estilos de la Navegación Fija */
 .fixed-nav {
     position: sticky;
     top: 0;
     width: 100%;
-    background-color: var(--prussian-blue); /* Fondo azul de Prusia */
+    background-color: #003153; /* Azul oscuro */
     padding: 10px 0;
     text-align: center;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4); /* Sombra más pronunciada para contraste */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     z-index: 100;
 }
 
 .fixed-nav a {
-    color: var(--white); /* Texto blanco para la navegación */
-    text-decoration: none;
+    color: white;
     padding: 10px 20px;
-    margin: 0 10px;
-    font-weight: 700;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
 }
 
 .fixed-nav a:hover,
 .fixed-nav a.active {
-    background-color: var(--dark-gold); /* Dorado oscuro al pasar el ratón */
-    color: var(--white); /* Texto blanco sobre dorado */
+    background-color: #CC9900; /* Naranja/Dorado */
     border-radius: 5px;
 }
 
-/* Estilos de las Secciones de Contenido */
 main {
     padding: 20px;
     max-width: 1200px;
     margin: 20px auto;
-    background-color: var(--white); /* Fondo blanco para el contenido principal */
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.15); /* Sombra más suave */
+    background-color: #fff;
     border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
 .content-section {
     padding: 40px 20px;
-    border-bottom: 1px solid #eee; /* Separador sutil */
+    border-bottom: 1px solid #eee;
 }
 
 .content-section:last-child {
     border-bottom: none;
 }
 
-.content-section h2 {
-    color: var(--prussian-blue); /* Títulos de sección en azul de Prusia */
+h2 {
+    color: #003153; /* Azul oscuro */
     text-align: center;
     margin-bottom: 30px;
-    font-size: 2.5em;
-    border-bottom: 2px solid var(--dark-gold); /* Raya dorada debajo del título */
-    display: inline-block; /* Para que la raya solo ocupe el ancho del texto */
-    padding-bottom: 5px;
+    position: relative;
+    padding-bottom: 10px;
 }
 
-.content-section p {
-    font-size: 1.1em;
-    margin-bottom: 20px;
+h2::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background-color: #CC9900; /* Naranja/Dorado */
+    border-radius: 2px;
+}
+
+p {
+    margin-bottom: 15px;
     text-align: justify;
-    color: var(--black); /* Texto de párrafo negro oscuro */
 }
 
-/* --- Estilos de Galería de Imágenes --- */
 .image-gallery {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -106,73 +97,46 @@ main {
 }
 
 .gallery-item {
-    border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra para los ítems de la galería */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     cursor: pointer;
-    background-color: var(--white); /* Fondo blanco para las tarjetas de imagen */
-    border: 1px solid #ddd;
 }
 
 .gallery-item:hover {
     transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
 }
 
 .gallery-item img {
     width: 100%;
-    height: 180px;
+    height: 180px; /* Altura fija para todas las imágenes de la galería */
     object-fit: cover;
     display: block;
+    border-radius: 8px;
 }
 
 .gallery-item.span-2-col {
     grid-column: span 2;
 }
 
-/* --- Estilos para la sección de Recursos --- */
 .resource-item {
-    background-color: var(--light-gray); /* Fondo gris claro para ítems de recursos */
-    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
     border-radius: 8px;
     padding: 20px;
     margin-bottom: 20px;
-    text-align: center;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
 .resource-item h3 {
-    color: var(--prussian-blue); /* Títulos de recursos en azul de Prusia */
+    color: #003153;
     margin-top: 0;
-    font-size: 1.8em;
-}
-
-.resource-item p {
-    font-size: 1em;
-    margin-bottom: 15px;
-    color: var(--black); /* Texto de párrafo negro oscuro */
-}
-
-.resource-item a {
-    display: inline-block;
-    background-color: var(--dark-gold); /* Botones de recursos en dorado oscuro */
-    color: var(--white); /* Texto blanco */
-    padding: 10px 20px;
-    border-radius: 5px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
-}
-
-.resource-item a:hover {
-    background-color: #B8860B; /* Un dorado un poco más oscuro al pasar el ratón */
 }
 
 .resource-item ul {
     list-style: none;
     padding: 0;
-    margin-top: 15px;
 }
 
 .resource-item ul li {
@@ -180,242 +144,259 @@ main {
 }
 
 .resource-item ul li a {
-    background-color: var(--prussian-blue); /* Enlaces de lista en azul de Prusia */
+    color: #CC9900;
+    text-decoration: none;
+    font-weight: bold;
 }
 
 .resource-item ul li a:hover {
-    background-color: #00223A; /* Azul más oscuro al pasar el ratón */
+    text-decoration: underline;
 }
 
-
-/* --- Estilos de la Sección de Chat --- */
-#chat-box {
-    border: 1px solid #ccc;
-    height: 300px;
-    overflow-y: scroll;
-    padding: 15px;
-    margin-bottom: 20px;
-    background-color: var(--white); /* Fondo blanco para el área de chat */
+/* Chat Styling */
+#chat-container {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ddd;
     border-radius: 8px;
-    display: flex; /* Asegura que flexbox esté activo */
-    flex-direction: column; /* Apila los mensajes verticalmente */
+    overflow: hidden;
+    height: 500px; /* Altura fija para el contenedor del chat */
+    margin-top: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+#chat-box {
+    flex-grow: 1;
+    padding: 15px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
     gap: 10px; /* Espacio entre mensajes */
-    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.05); /* Sombra interna sutil */
+    background-color: #f7f9fc; /* Fondo claro para el área de mensajes */
 }
 
 .message-item {
-    padding: 8px 12px;
-    border-radius: 15px;
-    max-width: 70%; /* Limita el ancho de la burbuja del mensaje */
-    word-wrap: break-word;
-    color: var(--black); /* Texto de mensaje negro oscuro */
-    display: flex; /* Permite alinear el texto y el botón de editar/ID */
-    flex-wrap: wrap; /* Permite que los elementos se envuelvan si no hay espacio */
-    align-items: flex-start; /* Alinea los elementos al inicio (arriba) */
-    position: relative; /* Para posicionar el header */
-    /* padding-bottom se manejará dinámicamente en JS */
-}
-
-/* Estilos para el contenedor del alias/ID */
-.message-item .message-header {
-    width: 100%; /* Ocupa todo el ancho disponible */
-    font-size: 0.8em;
-    color: #666;
-    margin-bottom: 5px; /* Espacio entre el header y el texto del mensaje */
-    display: flex; /* Permite alinear el alias y el ID si ambos están presentes */
-    justify-content: space-between; /* Espacio entre alias e ID */
-    align-items: baseline; /* Alinea el texto base de los elementos */
-}
-
-.message-item.sent .message-header {
-    text-align: right;
-    justify-content: flex-end; /* Alinea el header a la derecha */
-}
-
-.message-item.received .message-header {
-    text-align: left;
-    justify-content: flex-start; /* Alinea el header a la izquierda */
-}
-
-/* --- CAMBIADO: .sender-alias a .sender-name --- */
-.message-item .sender-name {
-    font-weight: bold;
-    color: var(--prussian-blue); /* Color distintivo para el nombre */
-    margin-right: 5px; /* Espacio entre el nombre y el ID real (si es admin) */
-}
-
-/* Estilo para el ID real (solo visible para el admin) */
-.message-item .admin-id-info {
-    font-size: 0.9em;
-    color: #888;
-    cursor: pointer;
-    margin-left: 5px;
-    white-space: nowrap; /* Evita que el ID se rompa en varias líneas */
-}
-
-.message-item .admin-id-info:hover {
-    color: var(--dark-gold); /* Cambio de color al pasar el ratón */
+    max-width: 80%;
+    padding: 10px 15px;
+    border-radius: 20px; /* Bordes redondeados para burbujas de mensaje */
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    word-wrap: break-word; /* Para mensajes largos */
+    position: relative; /* Para posicionar el botón de edición */
 }
 
 .message-item.sent {
-    background-color: #dcf8c6; /* Mensaje enviado, color verde claro */
-    align-self: flex-end; /* Alinea a la derecha */
-    margin-left: auto;
-    border-top-right-radius: 2px;
-    flex-direction: column; /* Apila el header y el contenido */
+    align-self: flex-end; /* Alinear a la derecha */
+    background-color: #CC9900; /* Color para mensajes enviados */
+    color: white;
+    margin-left: auto; /* Empujar a la derecha */
 }
 
 .message-item.received {
-    background-color: var(--medium-gray); /* Mensaje recibido, color gris claro */
-    align-self: flex-start; /* Alinea a la izquierda */
-    margin-right: auto;
-    border-top-left-radius: 2px;
-    flex-direction: column; /* Apila el header y el contenido */
+    align-self: flex-start; /* Alinear a la izquierda */
+    background-color: #e0e0e0; /* Color para mensajes recibidos */
+    color: #333;
+    margin-right: auto; /* Empujar a la izquierda */
 }
 
 .message-item.system-message {
-    background-color: #f0f0f0;
-    color: #555;
-    font-style: italic;
-    text-align: center;
     align-self: center;
-    max-width: 80%;
+    background-color: #f0f0f0;
+    color: #666;
+    font-style: italic;
     font-size: 0.9em;
-    padding-bottom: 8px; /* Mantener padding normal */
+    padding: 8px 12px;
+    border-radius: 10px;
+    text-align: center;
+    width: fit-content;
+    max-width: 90%;
 }
 
-/* --- ESTILOS PARA EDICIÓN --- */
-.message-item .message-text {
-    flex-grow: 1; /* Permite que el texto ocupe el espacio disponible */
+.message-header {
+    display: flex;
+    align-items: center;
+    font-size: 0.8em;
+    margin-bottom: 5px;
+    gap: 5px; /* Espacio entre nombre y ID */
 }
 
-.edit-button, .save-button, .cancel-button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 1.2em; /* Tamaño del emoji */
-    padding: 0;
-    margin: 0 5px; /* Espacio alrededor de los botones */
-    transition: transform 0.2s ease;
-    flex-shrink: 0; /* Evita que los botones se encojan */
+.message-item.sent .message-header {
+    justify-content: flex-end; /* Alinear header a la derecha para mensajes enviados */
+    color: #eee;
 }
 
-.edit-button:hover, .save-button:hover, .cancel-button:hover {
-    transform: scale(1.1);
+.message-item.received .message-header {
+    justify-content: flex-start; /* Alinear header a la izquierda para mensajes recibidos */
+    color: #555;
+}
+
+.sender-name {
+    font-weight: bold;
+}
+
+.admin-id-info {
+    font-size: 0.75em;
+    color: rgba(255,255,255,0.7); /* Color más tenue para el ID en mensajes enviados */
+    text-decoration: underline dotted;
+}
+.message-item.received .admin-id-info {
+    color: rgba(50,50,50,0.7);
+}
+
+
+.message-text {
+    display: block; /* Asegura que el texto ocupe su propia línea */
 }
 
 .edit-button {
-    color: #007bff; /* Un color azul para el lápiz */
-}
-.save-button {
-    color: var(--green-accent); /* Color verde para guardar */
-}
-.cancel-button {
-    color: #dc3545; /* Color rojo para cancelar */
-}
-
-.message-item .edit-input {
-    flex-grow: 1;
-    padding: 5px 8px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 0.95em;
-    margin-right: 5px;
-    width: calc(100% - 70px); /* Ajuste para el input durante la edición */
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 0.8em;
+    opacity: 0.6;
+    transition: opacity 0.2s ease;
+    padding: 3px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.2); /* Fondo semi-transparente */
 }
 
-/* Ocultar el botón de editar cuando el mensaje está en modo edición */
-.message-item.editing .edit-button {
-    display: none;
+.message-item.sent .edit-button {
+    color: white;
+}
+.message-item.received .edit-button {
+    color: #555;
 }
 
-/* Ajusta el padding para los mensajes editándose */
+.edit-button:hover {
+    opacity: 1;
+    background-color: rgba(255, 255, 255, 0.4);
+}
+
 .message-item.editing {
-    padding-bottom: 8px; /* Elimina el padding extra cuando está editando */
+    background-color: #fffacd; /* Color para indicar modo de edición */
+    border: 1px solid #ffd700;
+    color: #333;
+    padding-bottom: 8px !important; /* Ajustar padding durante edición */
+}
+
+.edit-input {
+    width: calc(100% - 20px); /* Ajustar al ancho del mensaje */
+    padding: 8px;
+    border: 1px solid #CC9900;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+
+.save-button, .cancel-button {
+    background-color: #003153;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 5px;
+    font-size: 0.8em;
+}
+
+.cancel-button {
+    background-color: #d9534f; /* Rojo para cancelar */
 }
 
 
 #chat-input {
     display: flex;
-    gap: 10px;
+    padding: 10px;
+    border-top: 1px solid #eee;
+    background-color: #f0f0f0;
 }
 
 #chat-input input[type="text"] {
     flex-grow: 1;
-    padding: 10px 15px;
+    padding: 10px;
     border: 1px solid #ccc;
-    border-radius: 20px;
+    border-radius: 5px;
     font-size: 1em;
-    background-color: var(--white); /* Fondo blanco para el input */
-    color: var(--black); /* Texto del input negro oscuro */
 }
 
 #chat-input button {
-    background-color: var(--dark-gold); /* Botón de enviar chat en dorado oscuro */
-    color: var(--white);
-    padding: 10px 20px;
+    background-color: #CC9900; /* Naranja/Dorado */
+    color: white;
     border: none;
-    border-radius: 20px;
+    padding: 10px 15px;
+    margin-left: 10px;
+    border-radius: 5px;
     cursor: pointer;
     font-size: 1em;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.2s ease;
 }
 
 #chat-input button:hover {
-    background-color: #B8860B; /* Dorado un poco más oscuro al pasar el ratón */
+    background-color: #e6b800; /* Naranja/Dorado más oscuro al pasar el ratón */
 }
 
-/* --- Estilos del Footer --- */
-footer {
+#chat-input button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+/* Auth Status Section */
+#auth-status {
     text-align: center;
-    padding: 20px;
-    background-color: var(--prussian-blue); /* Fondo azul de Prusia */
-    color: var(--white); /* Texto blanco */
-    margin-top: 30px;
-    border-radius: 0 0 8px 8px;
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+    margin-bottom: 15px;
+    padding: 10px;
+    background-color: #eef;
+    border-radius: 5px;
+    border: 1px solid #dde;
 }
 
-/* --- Responsive Design (Ejemplo Básico) --- */
-@media (max-width: 768px) {
-    .fixed-nav a {
-        padding: 8px 10px;
-        margin: 0 5px;
-        font-size: 0.9em;
-    }
-
-    .content-section h2 {
-        font-size: 2em;
-    }
-
-    .gallery-item.span-2-col {
-        grid-column: span 1;
-    }
+#user-info {
+    font-weight: bold;
+    color: #003153;
+    margin-right: 10px;
 }
 
-@media (max-width: 480px) {
-    .fixed-nav a {
-        display: block;
-        margin: 5px auto;
-    }
-    main {
-        padding: 10px;
-    }
+.auth-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    margin-left: 10px;
 }
 
-/* --- Estilos para el Modal de Imagen --- */
+#logout-button {
+    background-color: #dc3545; /* Rojo para cerrar sesión */
+}
+
+.auth-button:hover {
+    opacity: 0.9;
+}
+
+.chat-instruction {
+    text-align: center;
+    font-style: italic;
+    color: #666;
+    margin-top: 5px;
+}
+
+
+/* Modal de Imagen (Galeria) */
 .image-modal {
-    display: none; /* Oculto por defecto */
-    position: fixed; /* Se posiciona sobre todo el contenido */
-    z-index: 200; /* Asegura que esté por encima de todo (incluida la nav fija) */
-    padding-top: 60px; /* Un poco de espacio desde arriba */
+    display: none;
+    position: fixed;
+    z-index: 1001; /* Asegura que esté por encima de todo */
+    padding-top: 60px;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    overflow: auto; /* Permite scroll si la imagen es muy grande */
-    background-color: rgba(0, 0, 0, 0.9); /* Fondo oscuro semitransparente */
-    box-sizing: border-box; /* Incluye padding y border en el tamaño total */
+    overflow: auto;
+    background-color: rgba(0,0,0,0.9);
 }
 
 .modal-content {
@@ -423,11 +404,9 @@ footer {
     display: block;
     width: 80%;
     max-width: 700px;
-    max-height: 90vh; /* Para que no sea más alta que la ventana */
-    object-fit: contain; /* Asegura que la imagen se ajuste sin recortarse */
+    border-radius: 8px;
 }
 
-/* Botón de cerrar (la X) */
 .close-button {
     position: absolute;
     top: 15px;
@@ -446,20 +425,50 @@ footer {
     cursor: pointer;
 }
 
-/* Animación para el modal de imagen */
-.image-modal .modal-content, #caption {
-    animation-name: zoom;
-    animation-duration: 0.6s;
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #003153;
+    color: white;
+    margin-top: 20px;
+    border-radius: 0 0 8px 8px;
 }
 
-@keyframes zoom {
-    from {transform: scale(0.1)} 
-    to {transform: scale(1)}
-}
+/* Responsividad */
+@media (max-width: 768px) {
+    .fixed-nav a {
+        padding: 8px 10px;
+        font-size: 0.9em;
+    }
 
-/* Responsive para el modal en pantallas pequeñas */
-@media only screen and (max-width: 700px){
-    .modal-content {
-        width: 100%;
+    main {
+        padding: 10px;
+        margin: 10px auto;
+    }
+
+    .content-section {
+        padding: 20px 10px;
+    }
+
+    .image-gallery {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+
+    .gallery-item.span-2-col {
+        grid-column: span 1; /* En móviles, las columnas dobles se convierten en simples */
+    }
+
+    #chat-container {
+        height: 400px;
+    }
+
+    .message-item {
+        max-width: 95%;
+        padding: 8px 12px;
+    }
+
+    .edit-button {
+        font-size: 0.7em;
+        padding: 2px;
     }
 }
