@@ -209,20 +209,129 @@ main {
     max-width: 70%; /* Limita el ancho de la burbuja del mensaje */
     word-wrap: break-word;
     color: var(--black); /* Texto de mensaje negro oscuro */
+    display: flex; /* Permite alinear el texto y el botón de editar/ID */
+    flex-wrap: wrap; /* Permite que los elementos se envuelvan si no hay espacio */
+    align-items: flex-start; /* Alinea los elementos al inicio (arriba) */
+    position: relative; /* Para posicionar el header */
+    /* padding-bottom se manejará dinámicamente en JS */
+}
+
+/* Estilos para el contenedor del alias/ID */
+.message-item .message-header {
+    width: 100%; /* Ocupa todo el ancho disponible */
+    font-size: 0.8em;
+    color: #666;
+    margin-bottom: 5px; /* Espacio entre el header y el texto del mensaje */
+    display: flex; /* Permite alinear el alias y el ID si ambos están presentes */
+    justify-content: space-between; /* Espacio entre alias e ID */
+    align-items: baseline; /* Alinea el texto base de los elementos */
+}
+
+.message-item.sent .message-header {
+    text-align: right;
+    justify-content: flex-end; /* Alinea el header a la derecha */
+}
+
+.message-item.received .message-header {
+    text-align: left;
+    justify-content: flex-start; /* Alinea el header a la izquierda */
+}
+
+/* --- CAMBIADO: .sender-alias a .sender-name --- */
+.message-item .sender-name {
+    font-weight: bold;
+    color: var(--prussian-blue); /* Color distintivo para el nombre */
+    margin-right: 5px; /* Espacio entre el nombre y el ID real (si es admin) */
+}
+
+/* Estilo para el ID real (solo visible para el admin) */
+.message-item .admin-id-info {
+    font-size: 0.9em;
+    color: #888;
+    cursor: pointer;
+    margin-left: 5px;
+    white-space: nowrap; /* Evita que el ID se rompa en varias líneas */
+}
+
+.message-item .admin-id-info:hover {
+    color: var(--dark-gold); /* Cambio de color al pasar el ratón */
 }
 
 .message-item.sent {
     background-color: #dcf8c6; /* Mensaje enviado, color verde claro */
     align-self: flex-end; /* Alinea a la derecha */
-    margin-left: auto; /* Empuja el mensaje a la derecha, creando el espacio necesario */
-    border-top-right-radius: 2px; /* Pequeño ajuste para la burbuja */
+    margin-left: auto;
+    border-top-right-radius: 2px;
+    flex-direction: column; /* Apila el header y el contenido */
 }
 
 .message-item.received {
     background-color: var(--medium-gray); /* Mensaje recibido, color gris claro */
     align-self: flex-start; /* Alinea a la izquierda */
-    margin-right: auto; /* Empuja el mensaje a la izquierda */
-    border-top-left-radius: 2px; /* Pequeño ajuste para la burbuja */
+    margin-right: auto;
+    border-top-left-radius: 2px;
+    flex-direction: column; /* Apila el header y el contenido */
+}
+
+.message-item.system-message {
+    background-color: #f0f0f0;
+    color: #555;
+    font-style: italic;
+    text-align: center;
+    align-self: center;
+    max-width: 80%;
+    font-size: 0.9em;
+    padding-bottom: 8px; /* Mantener padding normal */
+}
+
+/* --- ESTILOS PARA EDICIÓN --- */
+.message-item .message-text {
+    flex-grow: 1; /* Permite que el texto ocupe el espacio disponible */
+}
+
+.edit-button, .save-button, .cancel-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2em; /* Tamaño del emoji */
+    padding: 0;
+    margin: 0 5px; /* Espacio alrededor de los botones */
+    transition: transform 0.2s ease;
+    flex-shrink: 0; /* Evita que los botones se encojan */
+}
+
+.edit-button:hover, .save-button:hover, .cancel-button:hover {
+    transform: scale(1.1);
+}
+
+.edit-button {
+    color: #007bff; /* Un color azul para el lápiz */
+}
+.save-button {
+    color: var(--green-accent); /* Color verde para guardar */
+}
+.cancel-button {
+    color: #dc3545; /* Color rojo para cancelar */
+}
+
+.message-item .edit-input {
+    flex-grow: 1;
+    padding: 5px 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 0.95em;
+    margin-right: 5px;
+    width: calc(100% - 70px); /* Ajuste para el input durante la edición */
+}
+
+/* Ocultar el botón de editar cuando el mensaje está en modo edición */
+.message-item.editing .edit-button {
+    display: none;
+}
+
+/* Ajusta el padding para los mensajes editándose */
+.message-item.editing {
+    padding-bottom: 8px; /* Elimina el padding extra cuando está editando */
 }
 
 
