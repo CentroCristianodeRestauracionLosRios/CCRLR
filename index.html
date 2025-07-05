@@ -1,80 +1,120 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Centro Cristiano de Restauración Los Ríos</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Espacio de Interacción: Conoce y Comparte</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
+    <script>
+        // Tu configuración de Firebase SDK aquí
+        const firebaseConfig = {
+            apiKey: "TU_API_KEY",
+            authDomain: "TU_AUTH_DOMAIN",
+            projectId: "TU_PROJECT_ID",
+            storageBucket: "TU_STORAGE_BUCKET",
+            messagingSenderId: "TU_MESSAGING_SENDER_ID",
+            appId: "TU_APP_ID",
+            databaseURL: "TU_DATABASE_URL" // Asegúrate de que esta URL esté presente
+        };
+    </script>
 </head>
 <body>
     <header class="main-header">
-        <img src="portada.png" alt="Portada de la Iglesia" class="hero-image" />
+        <img src="image_2de4bd.jpg" alt="Imagen de encabezado" class="hero-image">
     </header>
 
     <nav class="fixed-nav">
-        <a href="#inicio-content">Inicio</a>
-        <a href="#recursos-content">Recursos</a>
-        <a href="#chat-content">Chat</a>
+        <a href="#home" class="active">Inicio</a>
+        <a href="#about">Acerca de</a>
+        <a href="#gallery">Galería</a>
+        <a href="#resources">Recursos</a>
+        <a href="#chat">Chat</a>
     </nav>
 
     <main>
-        <section id="inicio-content" class="content-section">
-            <h2>Bienvenidos</h2>
-            <p>Bienvenidos al sitio oficial de nuestra iglesia. Aquí encontrarás recursos y un espacio para la comunidad.</p>
+        <section id="home" class="content-section">
+            <h2>Bienvenida al Espacio de Interacción</h2>
+            <p>¡Explora, aprende y comparte en nuestra comunidad dedicada al apoyo y crecimiento personal!</p>
+            <p>Aquí encontrarás recursos valiosos, una galería inspiradora y un chat para conectar con otros usuarios.</p>
+            <p>Te invitamos a sumergirte y participar activamente.</p>
+        </section>
 
+        <section id="about" class="content-section">
+            <h2>Acerca de Nuestro Espacio</h2>
+            <p>Este espacio ha sido creado con el propósito de ofrecer un entorno seguro y enriquecedor para individuos de todas las edades.</p>
+            <p>Creemos en el poder de la comunidad y el intercambio de experiencias. Nuestro objetivo es fomentar un ambiente de respeto, aprendizaje mutuo y apoyo incondicional.</p>
+            <p>Únete a nosotros para descubrir nuevas perspectivas, compartir tus conocimientos y formar parte de una red solidaria.</p>
+        </section>
+
+        <section id="gallery" class="content-section">
+            <h2>Galería Inspiradora</h2>
             <div class="image-gallery">
-                <div class="gallery-item span-2-col" data-full-src="afuera.jpg"><img src="afuera.jpg" alt="Actividad al aire libre"></div>
-                <div class="gallery-item" data-full-src="aniversario.jpg"><img src="aniversario.jpg" alt="Aniversario de la iglesia"></div>
-                <div class="gallery-item" data-full-src="BENDICION.png"><img src="BENDICION.png" alt="Bendición"></div>
-                <div class="gallery-item" data-full-src="danza.jpg"><img src="danza.jpg" alt="Danza en la iglesia"></div>
-                <div class="gallery-item span-2-col" data-full-src="ECO.png"><img src="ECO.png" alt="Evento ECO"></div>
-                <div class="gallery-item" data-full-src="hninos.jpg"><img src="hninos.jpg" alt="Niños de la iglesia"></div>
-                <div class="gallery-item" data-full-src="ninos.png"><img src="ninos.png" alt="Otro grupo de niños"></div>
-                <div class="gallery-item span-2-col" data-full-src="pastor.jpg"><img src="pastor.jpg" alt="Pastor"></div>
-                <div class="gallery-item" data-full-src="pastora.jpg"><img src="pastora.jpg" alt="Pastora"></div>
-                <div class="gallery-item span-2-col" data-full-src="serviciondominical.png"><img src="serviciondominical.png" alt="Servicio Dominical"></div>
-                <div class="gallery-item" data-full-src="UNA.png"><img src="UNA.png" alt="Evento UNA"></div>
+                <div class="gallery-item" data-full-src="image_556ce6.png">
+                    <img src="image_556ce6.png" alt="Imagen 1">
+                </div>
+                <div class="gallery-item span-2-col" data-full-src="image_2cf8b8.png">
+                    <img src="image_2cf8b8.png" alt="Imagen 2">
+                </div>
+                <div class="gallery-item" data-full-src="image_55da9c.png">
+                    <img src="image_55da9c.png" alt="Imagen 3">
+                </div>
+                <div class="gallery-item" data-full-src="image_564a43.png">
+                    <img src="image_564a43.png" alt="Imagen 4">
+                </div>
+                <div class="gallery-item" data-full-src="image_56c282.png">
+                    <img src="image_56c282.png" alt="Imagen 5">
+                </div>
+                <div class="gallery-item" data-full-src="image_2c13d9.png">
+                    <img src="image_2c13d9.png" alt="Imagen 6">
+                </div>
             </div>
         </section>
 
-        <section id="recursos-content" class="content-section">
-            <h2>Nuestros Recursos</h2>
-            
+        <section id="resources" class="content-section">
+            <h2>Recursos y Enlaces Útiles</h2>
             <div class="resource-item">
-                <h3>Plan de Evangelización</h3>
-                <p>Consulta nuestro plan de evangelización directamente aquí:</p>
-                <a href="https://centrocristianoderestauracionlosrios.github.io/ecuador/" target="_blank" rel="noopener noreferrer">Ver Plan de Evangelización</a>
-            </div>
-            
-            <div class="resource-item">
-                <h3>Lectura de Libros (PDF)</h3>
-                <p>Aquí podrás encontrar y leer libros en formato PDF. Haz clic en el título para abrir el libro.</p>
+                <h3>Recursos Educativos</h3>
+                <p>Accede a una selección de materiales educativos para expandir tus conocimientos.</p>
                 <ul>
-                    <li><a href="ruta/a/tu/libro1.pdf" target="_blank" rel="noopener noreferrer">Título del Libro 1</a></li>
-                    <li><a href="ruta/a/tu/libro2.pdf" target="_blank" rel="noopener noreferrer">Título del Libro 2</a></li>
+                    <li><a href="https://www.coursera.org/" target="_blank">Coursera</a></li>
+                    <li><a href="https://www.edx.org/" target="_blank">edX</a></li>
                 </ul>
             </div>
-
             <div class="resource-item">
-                <h3>Guía de Discipulado</h3>
-                <p>Descubre nuestra guía de discipulado para tu crecimiento espiritual.</p>
-                <a href="ruta/a/tu/guia-discipulado.pdf" target="_blank" rel="noopener noreferrer">Descargar Guía de Discipulado (PDF)</a>
+                <h3>Comunidades de Apoyo</h3>
+                <p>Encuentra grupos y foros donde puedes conectar con personas que comparten tus intereses o desafíos.</p>
+                <ul>
+                    <li><a href="https://www.reddit.com/r/selfimprovement/" target="_blank">Reddit r/selfimprovement</a></li>
+                    <li><a href="https://www.supportgroups.com/" target="_blank">SupportGroups.com</a></li>
+                </ul>
             </div>
         </section>
 
-        <section id="chat-content" class="content-section">
-            <h2>Chat de Oración</h2>
-            <div id="chat-box"></div>
-            <div id="chat-input">
-                <input type="text" id="message" placeholder="Escribe tu mensaje aquí..." />
-                <button id="sendBtn">Enviar</button>
+        <section id="chat" class="content-section">
+            <h2>Chat en Vivo</h2>
+            <div id="auth-status">
+                <span id="user-info">No has iniciado sesión.</span>
+                <button id="login-button" style="display: none;">Iniciar sesión con Google</button>
+                <button id="logout-button" style="display: none;">Cerrar sesión</button>
+            </div>
+            <p>Inicia sesión para participar en el chat.</p>
+
+            <div id="chat-container">
+                <div id="chat-box">
+                    </div>
+                <div id="chat-input">
+                    <input type="text" id="message" placeholder="Escribe tu mensaje..." disabled>
+                    <button id="sendBtn" disabled>Enviar</button>
+                </div>
             </div>
         </section>
     </main>
 
     <footer>
-        <p>© 2025 Centro Cristiano de Restauración Los Ríos. Todos los derechos reservados.</p>
+        <p>&copy; 2025 Espacio de Interacción. Todos los derechos reservados.</p>
     </footer>
 
     <div id="imageModal" class="image-modal">
@@ -82,18 +122,6 @@
         <img class="modal-content" id="img01">
     </div>
 
-    <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyCHznVAG8HyaAwzTMcYXrEjS4ikcgf9Nx0",
-            authDomain: "chat-ccrlr.firebaseapp.com",
-            databaseURL: "https://chat-ccrlr-default-rtdb.firebaseio.com",
-            projectId: "chat-ccrlr",
-            storageBucket: "chat-ccrlr.firebasestorage.app",
-            messagingSenderId: "832816032978",
-            appId: "1:832816032978:web:08721a677cff57b0d9110b",
-            measurementId: "G-P71V26NFRE"
-        };
-    </script>
     <script type="module" src="script.js"></script>
 </body>
 </html>
