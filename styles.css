@@ -197,28 +197,32 @@ main {
     margin-bottom: 20px;
     background-color: var(--white); /* Fondo blanco para el área de chat */
     border-radius: 8px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+    display: flex; /* Asegura que flexbox esté activo */
+    flex-direction: column; /* Apila los mensajes verticalmente */
+    gap: 10px; /* Espacio entre mensajes */
     box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.05); /* Sombra interna sutil */
 }
 
 .message-item {
     padding: 8px 12px;
     border-radius: 15px;
-    max-width: 70%;
+    max-width: 70%; /* Limita el ancho de la burbuja del mensaje */
     word-wrap: break-word;
     color: var(--black); /* Texto de mensaje negro oscuro */
 }
 
 .message-item.sent {
-    background-color: #dcf8c6; /* Mantengo un verde claro para mensajes enviados, puede ser dorado claro si quieres */
-    align-self: flex-end;
+    background-color: #dcf8c6; /* Mensaje enviado, color verde claro */
+    align-self: flex-end; /* Alinea a la derecha */
+    margin-left: auto; /* Empuja el mensaje a la derecha, creando el espacio necesario */
+    border-top-right-radius: 2px; /* Pequeño ajuste para la burbuja */
 }
 
 .message-item.received {
-    background-color: var(--medium-gray); /* Gris claro para mensajes recibidos */
-    align-self: flex-start;
+    background-color: var(--medium-gray); /* Mensaje recibido, color gris claro */
+    align-self: flex-start; /* Alinea a la izquierda */
+    margin-right: auto; /* Empuja el mensaje a la izquierda */
+    border-top-left-radius: 2px; /* Pequeño ajuste para la burbuja */
 }
 
 
@@ -290,7 +294,7 @@ footer {
     }
 }
 
-/* --- Estilos para el Modal de Imagen - AÑADIDO AQUÍ --- */
+/* --- Estilos para el Modal de Imagen --- */
 .image-modal {
     display: none; /* Oculto por defecto */
     position: fixed; /* Se posiciona sobre todo el contenido */

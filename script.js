@@ -3,16 +3,23 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase
 import { getDatabase, ref, push, onChildAdded, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
 
 // Accede a la configuración de Firebase definida globalmente en index.html
-// Asegúrate de que firebaseConfig esté disponible en el ámbito global o pásala como parámetro si usas IIFE
-const app = initializeApp(firebaseConfig); // firebaseConfig debe estar disponible aquí
+const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
-const messagesRef = ref(database, 'messages'); // 'messages' es el nodo principal de tus mensajes
+const messagesRef = ref(database, 'messages');
+
+// --- Generar o recuperar ID de usuario para identificar remitente ---
+let userId = sessionStorage.getItem('chatUserId');
+if (!userId) {
+    // Genera un ID aleatorio único para la sesión del usuario
+    userId = 'user_' + Math.random().toString(36).substring(2, 15);
+    sessionStorage.setItem('chatUserId', userId); // Guarda el ID en sessionStorage
+}
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Lógica para el modal de imagen de la galería - AÑADIDO/MODIFICADO AQUÍ
+    // Lógica para el modal de imagen de la galería
     const imageModal = document.getElementById('imageModal');
     const modalImg = document.getElementById('img01');
-    const closeButton = document.querySelector('.close-button'); // Selector de la 'X' para cerrar
+    const closeButton = document.querySelector('.close-button');
 
     const galleryItems = document.querySelectorAll('.image-gallery .gallery-item');
 
@@ -20,9 +27,6 @@ document.addEventListener('DOMContentLoaded', () => {
         item.addEventListener('click', () => {
             imageModal.style.display = 'block'; // Muestra el modal
             modalImg.src = item.getAttribute('data-full-src'); // Establece la imagen grande
-            // Puedes añadir una descripción si tu HTML tuviera un div para ello y el item tuviera un data-caption
-            // const captionText = document.getElementById('caption');
-            // captionText.innerHTML = item.querySelector('img').alt; 
         });
     });
 
@@ -45,36 +49,30 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-
     // Lógica del Chat con Firebase Realtime Database
     const chatBox = document.getElementById('chat-box');
     const messageInput = document.getElementById('message');
     const sendBtn = document.getElementById('sendBtn');
 
-    // Asegurarse de que los elementos del chat existen y Firebase está inicializado
     if (sendBtn && messageInput && chatBox && app && database && messagesRef) {
-        
         // 1. Escuchar nuevos mensajes de Firebase
-        // onChildAdded se dispara para cada mensaje existente y luego para cada nuevo mensaje
         onChildAdded(messagesRef, (snapshot) => {
             const message = snapshot.val(); // Obtiene los datos del mensaje
-            // Asigna un tipo basado en si el mensaje es del usuario actual (simplificado para ejemplo)
-            // Para un chat multiusuario real, necesitarías autenticación para saber quién es el remitente.
-            const messageType = message.type || 'received'; // Asume 'received' si no hay 'type'
-            appendMessage(message.text, messageType); // Añade el mensaje al DOM
+            // Llama a appendMessage con el texto y el ID del remitente
+            appendMessage(message.text, message.senderId); 
         });
 
         // 2. Enviar mensajes a Firebase
         sendBtn.addEventListener('click', () => {
             const messageText = messageInput.value.trim();
             if (messageText !== '') {
-                // Enviar el mensaje a Firebase
+                // Enviar el mensaje a Firebase, incluyendo el ID del remitente
                 push(messagesRef, {
                     text: messageText,
-                    type: 'sent', // Marca el mensaje como enviado por este cliente
-                    timestamp: serverTimestamp() // Marca de tiempo del servidor para ordenar
+                    senderId: userId, // Guarda el ID del usuario actual
+                    timestamp: serverTimestamp() // Marca de tiempo del servidor
                 });
-                messageInput.value = ''; // Limpia el input después de enviar
+                messageInput.value = ''; // Limpia el input
             }
         });
 
@@ -88,12 +86,19 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error("Elementos del chat o Firebase no inicializados correctamente. Verifica tu index.html y script.js.");
     }
 
-    // Función para añadir mensajes al chat box (sin cambios importantes)
-    function appendMessage(text, type) {
+    // Función para añadir mensajes al chat box y aplicar estilos según el remitente
+    function appendMessage(text, senderId) {
         const messageElement = document.createElement('div');
-        messageElement.classList.add('message-item', type);
         messageElement.textContent = text;
+        
+        // Compara el senderId del mensaje con el userId del usuario actual
+        if (senderId === userId) {
+            messageElement.classList.add('message-item', 'sent'); // Mensaje propio, a la derecha
+        } else {
+            messageElement.classList.add('message-item', 'received'); // Mensaje de otro, a la izquierda
+        }
+        
         chatBox.appendChild(messageElement);
-        chatBox.scrollTop = chatBox.scrollHeight;
+        chatBox.scrollTop = chatBox.scrollHeight; // Desplaza al final para ver el último mensaje
     }
 });
