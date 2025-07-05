@@ -1,47 +1,24 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // Lógica para la galería de imágenes: abre la imagen completa en una nueva pestaña al hacer clic.
-    const galleryItems = document.querySelectorAll('.image-gallery .gallery-item');
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
 
-    galleryItems.forEach(item => {
-        item.addEventListener('click', () => {
-            const fullSrc = item.getAttribute('data-full-src');
-            window.open(fullSrc, '_blank'); 
-        });
-    });
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyCHznVAG8HyaAwzTMcYXrEjS4ikcgf9Nx0",
+    authDomain: "chat-ccrlr.firebaseapp.com",
+    databaseURL: "https://chat-ccrlr-default-rtdb.firebaseio.com",
+    projectId: "chat-ccrlr",
+    storageBucket: "chat-ccrlr.firebasestorage.app",
+    messagingSenderId: "832816032978",
+    appId: "1:832816032978:web:08721a677cff57b0d9110b",
+    measurementId: "G-P71V26NFRE"
+  };
 
-    // Lógica del Chat (Ejemplo muy básico)
-    const chatBox = document.getElementById('chat-box');
-    const messageInput = document.getElementById('message');
-    const sendBtn = document.getElementById('sendBtn');
-
-    if (sendBtn && messageInput && chatBox) { // Asegurarse de que los elementos del chat existen
-        sendBtn.addEventListener('click', () => {
-            const messageText = messageInput.value.trim();
-            if (messageText !== '') {
-                appendMessage(messageText, 'sent');
-                messageInput.value = '';
-                // Aquí podrías añadir lógica para enviar el mensaje a un backend o simular una respuesta
-                // setTimeout(() => appendMessage("Gracias por tu mensaje. Un pastor se pondrá en contacto pronto.", 'received'), 1000);
-            }
-        });
-
-        // Permitir enviar con Enter en el input de mensaje
-        messageInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                sendBtn.click(); // Simula un clic en el botón Enviar
-            }
-        });
-    }
-
-    // Función para añadir mensajes al chat box
-    function appendMessage(text, type) {
-        const messageElement = document.createElement('div');
-        messageElement.classList.add('message-item', type);
-        messageElement.textContent = text;
-        chatBox.appendChild(messageElement);
-        chatBox.scrollTop = chatBox.scrollHeight; // Desplazar al final
-    }
-
-    // Si quieres un mensaje de bienvenida inicial en el chat, puedes llamarlo aquí:
-    // appendMessage("¡Bienvenido al Chat de Oración! Deja tu petición.", 'received');
-});
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
