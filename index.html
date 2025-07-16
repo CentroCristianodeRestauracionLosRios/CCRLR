@@ -4,10 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Espacio de Interacción: Conoce y Comparte</title>
+    <link rel="stylesheet" href="style.css"> 
+    
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="icon" type="image/x-icon" href="ICONO.ico">
-    <link rel="shortcut icon" type="image/x-icon" href="ICONO.ico">
+    <link rel="shortcut icon" type="image/x-x-icon" href="ICONO.ico">
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
@@ -25,137 +27,282 @@
             measurementId: "G-P71V26NFRE"
         };
     </script>
-</head>
+    
+    </head>
 <body>
     <header class="main-header">
         <img src="portada.png" alt="Encabezado del sitio web" class="hero-image">
+        <div class="hero-content">
+            <h1>Espacio de Interacción</h1>
+            <p>Explora, aprende y comparte en nuestra comunidad</p>
+            <a href="#about" class="cta-button">
+                <i class="fas fa-arrow-down"></i> Descubre Más
+            </a>
+        </div>
     </header>
 
     <nav class="fixed-nav">
-        <a href="#home" class="active">Inicio</a>
-        <a href="#about">Acerca de</a>
-        <a href="#gallery">Galería</a>
-        <a href="#resources">Recursos</a>
-        <a href="#chat">Chat</a>
+        <a href="#home" class="active">
+            <i class="fas fa-home"></i> Inicio
+        </a>
+        <a href="#about">
+            <i class="fas fa-info-circle"></i> Acerca de
+        </a>
+        <a href="#gallery">
+            <i class="fas fa-images"></i> Galería
+        </a>
+        <a href="#resources">
+            <i class="fas fa-book"></i> Recursos
+        </a>
+        <a href="#chat">
+            <i class="fas fa-comments"></i> Chat
+        </a>
     </nav>
 
-    <main>
+    <main class="container">
         <section id="home" class="content-section">
-            <h2>Bienvenido al Espacio de Interacción</h2>
-            <p>¡Explora, aprende y comparte en nuestra comunidad dedicada al apoyo y crecimiento personal!</p>
-            <p>Aquí encontrarás recursos valiosos, una galería inspiradora y un chat para conectar con otros usuarios.</p>
-            <p>Te invitamos a sumergirte y participar activamente.</p>
+            <div class="section-header">
+                <i class="fas fa-church section-icon"></i>
+                <h2>Bienvenida al Espacio</h2>
+                <p class="section-subtitle">Descubre un lugar donde la comunidad se une para crecer juntos</p>
+            </div>
+            
+            <div class="welcome-cards">
+                <div class="welcome-card">
+                    <i class="fas fa-users"></i>
+                    <h3>Comunidad Unida</h3>
+                    <p>Conecta con personas que comparten tus valores y aspiraciones espirituales</p>
+                </div>
+                <div class="welcome-card">
+                    <i class="fas fa-heart"></i>
+                    <h3>Apoyo Mutuo</h3>
+                    <p>Encuentra el apoyo y la comprensión que necesitas en tu crecimiento personal</p>
+                </div>
+                <div class="welcome-card">
+                    <i class="fas fa-star"></i>
+                    <h3>Crecimiento Espiritual</h3>
+                    <p>Recursos y herramientas para fortalecer tu fe y expandir tu conocimiento</p>
+                </div>
+            </div>
         </section>
 
         <section id="about" class="content-section">
-            <h2>Acerca de Nuestro Espacio</h2>
-            <p>Este espacio ha sido creado con el propósito de ofrecer un entorno seguro y enriquecedor para individuos de todas las edades.</p>
-            <p>Creemos en el poder de la comunidad y el intercambio de experiencias. Nuestro objetivo es fomentar un ambiente de respeto, aprendizaje mutuo y apoyo incondicional.</p>
-            <p>Únete a nosotros para descubrir nuevas perspectivas, compartir tus conocimientos y formar parte de una red solidaria.</p>
+            <div class="section-header">
+                <i class="fas fa-hands-praying section-icon"></i>
+                <h2>Acerca de Nuestro Espacio</h2>
+                <p class="section-subtitle">Un lugar seguro para el crecimiento espiritual y la comunidad</p>
+            </div>
+            
+            <div class="about-features">
+                <div class="feature-item">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>Entorno Seguro</h3>
+                    <p>Espacio protegido para compartir y crecer sin prejuicios</p>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h3>Aprendizaje Mutuo</h3>
+                    <p>Intercambio de conocimientos y experiencias enriquecedoras</p>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-hands-helping"></i>
+                    <h3>Apoyo Incondicional</h3>
+                    <p>Una red de personas dispuestas a ayudarte en tu camino</p>
+                </div>
+            </div>
         </section>
 
         <section id="gallery" class="content-section">
-            <h2>Galería Inspiradora</h2>
+            <div class="section-header">
+                <i class="fas fa-camera section-icon"></i>
+                <h2>Galería Inspiradora</h2>
+                <p class="section-subtitle">Momentos especiales que reflejan nuestra comunidad</p>
+            </div>
+            
             <div class="image-gallery">
                 <div class="gallery-item" data-full-src="afuera.jpg">
-                    <img src="afuera.jpg" alt="Imagen Afuera">
+                    <img src="afuera.jpg" alt="Actividades al aire libre">
+                    <div class="gallery-overlay">
+                        <i class="fas fa-search-plus"></i>
+                    </div>
                 </div>
                 <div class="gallery-item" data-full-src="aniversario.jpg">
-                    <img src="aniversario.jpg" alt="Imagen Aniversario">
+                    <img src="aniversario.jpg" alt="Celebración de aniversario">
+                    <div class="gallery-overlay">
+                        <i class="fas fa-search-plus"></i>
+                    </div>
                 </div>
                 <div class="gallery-item" data-full-src="danza.jpg">
-                    <img src="danza.jpg" alt="Imagen Danza">
+                    <img src="danza.jpg" alt="Danza y adoración">
+                    <div class="gallery-overlay">
+                        <i class="fas fa-search-plus"></i>
+                    </div>
                 </div>
                 <div class="gallery-item" data-full-src="hninos.jpg">
-                    <img src="hninos.jpg" alt="Imagen Niños">
+                    <img src="hninos.jpg" alt="Ministerio de niños">
+                    <div class="gallery-overlay">
+                        <i class="fas fa-search-plus"></i>
+                    </div>
                 </div>
                 <div class="gallery-item" data-full-src="iglesia.jpg">
-                    <img src="iglesia.jpg" alt="Imagen Iglesia">
+                    <img src="iglesia.jpg" alt="Nuestra iglesia">
+                    <div class="gallery-overlay">
+                        <i class="fas fa-search-plus"></i>
+                    </div>
                 </div>
                 <div class="gallery-item" data-full-src="pastor.jpg">
-                    <img src="pastor.jpg" alt="Imagen Pastor">
+                    <img src="pastor.jpg" alt="Pastor">
+                    <div class="gallery-overlay">
+                        <i class="fas fa-search-plus"></i>
+                    </div>
                 </div>
                 <div class="gallery-item" data-full-src="pastora.jpg">
-                    <img src="pastora.jpg" alt="Imagen Pastora">
+                    <img src="pastora.jpg" alt="Pastora">
+                    <div class="gallery-overlay">
+                        <i class="fas fa-search-plus"></i>
+                    </div>
                 </div>
                 <div class="gallery-item" data-full-src="BENDICION.png">
-                    <img src="BENDICION.png" alt="Imagen Bendición">
+                    <img src="BENDICION.png" alt="Bendición">
+                    <div class="gallery-overlay">
+                        <i class="fas fa-search-plus"></i>
+                    </div>
                 </div>
                 <div class="gallery-item" data-full-src="ECO.png">
-                    <img src="ECO.png" alt="Imagen ECO">
+                    <img src="ECO.png" alt="ECO Restauración">
+                    <div class="gallery-overlay">
+                        <i class="fas fa-search-plus"></i>
+                    </div>
                 </div>
                 <div class="gallery-item" data-full-src="ninos.png">
-                    <img src="ninos.png" alt="Imagen Niños">
+                    <img src="ninos.png" alt="Niños">
+                    <div class="gallery-overlay">
+                        <i class="fas fa-search-plus"></i>
+                    </div>
                 </div>
                 <div class="gallery-item" data-full-src="serviciondominical.png">
-                    <img src="serviciondominical.png" alt="Imagen Servicio Dominical">
+                    <img src="serviciondominical.png" alt="Servicio dominical">
+                    <div class="gallery-overlay">
+                        <i class="fas fa-search-plus"></i>
+                    </div>
                 </div>
                 <div class="gallery-item" data-full-src="UNA.png">
-                    <img src="UNA.png" alt="Imagen UNA">
+                    <img src="UNA.png" alt="Unión">
+                    <div class="gallery-overlay">
+                        <i class="fas fa-search-plus"></i>
+                    </div>
                 </div>
             </div>
         </section>
 
-<section id="resources" class="content-section">
-            <h2>Recursos y Enlaces Útiles</h2>
-            <div class="resource-item">
-                <h3>Libreto de Obra de Teatro "Se subasta un alma"</h3>
-                <p>Aquí puedes visualizar el libreto de la obra de teatro directamente en la página:</p>
-                <iframe src="SE SUBASTA UN ALMA.pdf" class="pdf-viewer" frameborder="0"></iframe>
-                <p>También puedes descargarlo para leerlo sin conexión:</p>
-                <ul>
-                    <li><a href="SE SUBASTA UN ALMA.pdf" download>Descargar Libreto "Se subasta un alma" (PDF)</a></li>
-                </ul>
+        <section id="resources" class="content-section">
+            <div class="section-header">
+                <i class="fas fa-tools section-icon"></i>
+                <h2>Recursos y Enlaces</h2>
+                <p class="section-subtitle">Herramientas para tu crecimiento espiritual y educativo</p>
             </div>
-            <div class="resource-item">
-                <h3>Recursos Educativos Adicionales</h3>
-                <p>Accede a una selección de materiales educativos para expandir tus conocimientos.</p>
-                <ul>
-                    <li><a href="https://centrocristianoderestauracionlosrios.github.io/ecuador/" target="_blank">Plan de Evangelización</a></li>
-                </ul>
-            </div>
-            <div class="resource-item">
-                <h3>Comunidades de Apoyo</h3>
-                <p>Encuentra grupos y foros donde puedes conectar con personas que comparten tus intereses o desafíos.</p>
-                <ul>
-                    <li><a href="https://www.facebook.com/share/16jf9KddoZ/" target="_blank">Página de Facebook de la Iglesia</a></li>
-                </ul>
+            
+            <div class="resources-grid">
+                <div class="resource-item">
+                    <h3>
+                        <i class="fas fa-theater-masks"></i>
+                        Libreto de Obra de Teatro
+                    </h3>
+                    <p>Visualiza el libreto de "Se subasta un alma" directamente aquí:</p>
+                    <iframe class="pdf-viewer" src="se_subasta_un_alma.pdf"></iframe>
+                    <p>Descarga el libreto en PDF:</p>
+                    <a href="se_subasta_un_alma.pdf" download class="cta-button" style="background: linear-gradient(45deg, #17a2b8, #138496);">
+                        <i class="fas fa-download"></i> Descargar PDF
+                    </a>
+                </div>
+                <div class="resource-item">
+                    <h3>
+                        <i class="fas fa-file-alt"></i>
+                        Artículos y Estudios
+                    </h3>
+                    <ul>
+                        <li><a href="#">Guía para el estudio bíblico</a></li>
+                        <li><a href="#">Cómo fortalecer tu fe</a></li>
+                        <li><a href="#">El poder de la oración</a></li>
+                    </ul>
+                </div>
+                <div class="resource-item">
+                    <h3>
+                        <i class="fas fa-link"></i>
+                        Enlaces de Interés
+                    </h3>
+                    <ul>
+                        <li><a href="https://www.ejemplo.com/recurso1" target="_blank">Enlace Externo 1</a></li>
+                        <li><a href="https://www.ejemplo.com/recurso2" target="_blank">Enlace Externo 2</a></li>
+                        <li><a href="https://www.ejemplo.com/recurso3" target="_blank">Enlace Externo 3</a></li>
+                    </ul>
+                </div>
             </div>
         </section>
-        
+
         <section id="chat" class="content-section">
-            <h2>Chat en Vivo</h2>
-            <div id="auth-status">
-                <span id="user-info">No has iniciado sesión.</span>
-                <button id="login-button" class="auth-button" style="display: none;">Iniciar sesión con Google</button>
-                <button id="logout-button" class="auth-button" style="display: none;">Cerrar sesión</button>
+            <div class="section-header">
+                <i class="fas fa-comments section-icon"></i>
+                <h2>Chat de la Comunidad</h2>
+                <p class="section-subtitle">Conéctate y comparte con otros miembros en tiempo real</p>
             </div>
-            <p class="chat-instruction">Inicia sesión para participar en el chat o usa un nombre de invitado.</p>
+
+            <div id="auth-status">
+                <span id="user-info">
+                    <i class="fas fa-user-circle"></i> No autenticado
+                </span>
+                <button id="login-button" class="auth-button">
+                    <i class="fas fa-sign-in-alt"></i> Iniciar Sesión con Google
+                </button>
+                <button id="logout-button" class="auth-button" style="display: none;">
+                    <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                </button>
+            </div>
 
             <div id="chat-container">
                 <div id="chat-box">
                     </div>
                 <div id="chat-input">
-                    <input type="text" id="message" placeholder="Escribe tu mensaje..." disabled>
-                    <button id="sendBtn" disabled>Enviar</button>
+                    <input type="text" id="message-input" placeholder="Escribe tu mensaje..." disabled>
+                    <button id="send-button" disabled>
+                        <i class="fas fa-paper-plane"></i> Enviar
+                    </button>
                 </div>
             </div>
         </section>
     </main>
 
-    <footer>
-        <p>&copy; 2025 Espacio de Interacción. Todos los derechos reservados.</p>
-        <div class="contact-info">
-            <p><strong>E-mail de la Iglesia:</strong> <a href="mailto:derestauracionc@gmail.com">derestauracionc@gmail.com</a></p>
-            <p><strong>TikTok Ministerio de Jóvenes "ECORESTAURACION":</strong> <a href="https://www.tiktok.com/@ecorestauracion?_t=ZM-8xlrKoP4FHk&_r=1" target="_blank">@ecorestauracion</a></p>
-        </div>
-    </footer>
-
     <div id="imageModal" class="image-modal">
         <span class="close-button">&times;</span>
-        <img class="modal-content" id="img01">
+        <img class="modal-content" id="modalImage">
     </div>
 
-    <script type="module" src="script.js"></script>
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-section">
+                <h3>Contacto</h3>
+                <p><i class="fas fa-map-marker-alt"></i> Calle Falsa 123, Ciudad Ejemplo</p>
+                <p><i class="fas fa-phone"></i> +123 456 7890</p>
+                <p><i class="fas fa-envelope"></i> info@espaciointeraccion.com</p>
+            </div>
+            <div class="footer-section">
+                <h3>Síguenos</h3>
+                <p><a href="#"><i class="fab fa-facebook"></i> Facebook</a></p>
+                <p><a href="#"><i class="fab fa-instagram"></i> Instagram</a></p>
+                <p><a href="#"><i class="fab fa-youtube"></i> YouTube</a></p>
+            </div>
+            <div class="footer-section">
+                <h3>Navegación Rápida</h3>
+                <p><a href="#home">Inicio</a></p>
+                <p><a href="#about">Acerca de</a></p>
+                <p><a href="#gallery">Galería</a></p>
+                <p><a href="#resources">Recursos</a></p>
+                <p><a href="#chat">Chat</a></p>
+            </div>
+        </div>
+        <p>&copy; 2025 Espacio de Interacción. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="js/script.js"></script>
 </body>
 </html>
